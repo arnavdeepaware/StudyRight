@@ -1,81 +1,72 @@
-// HomePage.jsx
-import React, { useEffect, useRef } from 'react';
-import './HomePage.css';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const HomePage = () => {
   const navigate = useNavigate();
-  const leftRef = useRef(null);
-  const rightRef = useRef(null);
-  const containerRef = useRef(null);
+  const [file, setFile] = useState(null);
+  const [uploading, setUploading] = useState(false);
+  const [message, setMessage] = useState('');
 
-  useEffect(() => {
-    const left = leftRef.current;
-    const right = rightRef.current;
-    const container = containerRef.current;
+  const handleFileChange = (e) => {
+    setFile(e.target.files[0]);
+  };
 
-    if (!left || !right || !container) return;
-
-    const addHoverLeft = () => container.classList.add('hover-left');
-    const removeHoverLeft = () => container.classList.remove('hover-left');
-
-    const addHoverRight = () => container.classList.add('hover-right');
-    const removeHoverRight = () => container.classList.remove('hover-right');
-
-    left.addEventListener('mouseenter', addHoverLeft);
-    left.addEventListener('mouseleave', removeHoverLeft);
-    right.addEventListener('mouseenter', addHoverRight);
-    right.addEventListener('mouseleave', removeHoverRight);
-
-    // Add keyboard support for accessibility
-    const handleKeyDown = (e) => {
-      if (e.key === 'ArrowLeft') addHoverLeft();
-      if (e.key === 'ArrowRight') addHoverRight();
-      if (e.key === 'Escape') {
-        removeHoverLeft();
-        removeHoverRight();
+  const handleCreateVideo = async (option) => {
+    if (option === 'Type your notes') {
+      navigate('/notes'); // Navigate to the Notes page
+    } else if (option === 'Upload a file') {
+      if (!file) {
+        setMessage('Please select a file first');
+        return;
       }
-    };
 
-    window.addEventListener('keydown', handleKeyDown);
+      setUploading(true);
+      setMessage('Uploading file...');
+      
+      const formData = new FormData();
+      formData.append('file', file);
 
-    return () => {
-      left.removeEventListener('mouseenter', addHoverLeft);
-      left.removeEventListener('mouseleave', removeHoverLeft);
-      right.removeEventListener('mouseenter', addHoverRight);
-      right.removeEventListener('mouseleave', removeHoverRight);
-      window.removeEventListener('keydown', handleKeyDown);
-    };
-  }, []);
+      try {
+        const response = await fetch('http://127.0.0.1:5000/api/upload', {
+          method: 'POST',
+          body: formData,
+        });
+
+        const data = await response.json();
+        
+        if (response.ok) {
+          setMessage('File uploaded successfully!');
+          // You can navigate to a success page or do something with the response
+        } else {
+          setMessage(`Error: ${data.error}`);
+        }
+      } catch (error) {
+        setMessage(`Error uploading file: ${error.message}`);
+      } finally {
+        setUploading(false);
+      }
+    }
+  };
 
   return (
-    <div className="container" ref={containerRef}>
-      <div className="split left" ref={leftRef}>
-        <div className="content">
-          <h1>Your Reels</h1>
-          <p className="description">Browse and discover amazing content</p>
-          <button 
-            className="btn" 
-            onClick={() => navigate('/explore')}
-            aria-label="Explore reels"
-          >
-            Explore
-          </button>
-        </div>
+    <div className="home-container">
+      <h1>Welcome to SitRight</h1>
+      
+      <div className="file-upload">
+        <input type="file" onChange={handleFileChange} />
       </div>
-      <div className="split right" ref={rightRef}>
-        <div className="content">
-          <h1>Create a Reel</h1>
-          <p className="description">Share your creativity with the world</p>
-          <button 
-            className="btn" 
-            onClick={() => navigate('/notes')}
-            aria-label="Start creating a reel"
-          >
-            Start Now
-          </button>
-        </div>
+      
+      <div className="create-video">
+        <button 
+          onClick={() => handleCreateVideo('Upload a file')}
+          disabled={uploading}
+        >
+          {uploading ? 'Uploading...' : 'Upload a file'}
+        </button>
+        <button onClick={() => handleCreateVideo('Type your notes')}>Type your notes</button>
       </div>
+      
+      {message && <p className="message">{message}</p>}
     </div>
   );
 };
