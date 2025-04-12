@@ -1,7 +1,10 @@
+import React, { useRef, useEffect, useState } from 'react'; // missing imports!
 import { useNavigate } from 'react-router-dom';
+import './HomePage.css'; // if you have CSS
 
 const HomePage = () => {
   const navigate = useNavigate();
+  const [message, setMessage] = useState('');
 
   const leftRef = useRef(null);
   const rightRef = useRef(null);
@@ -25,7 +28,6 @@ const HomePage = () => {
     right.addEventListener('mouseenter', addHoverRight);
     right.addEventListener('mouseleave', removeHoverRight);
 
-    // Add keyboard support for accessibility
     const handleKeyDown = (e) => {
       if (e.key === 'ArrowLeft') addHoverLeft();
       if (e.key === 'ArrowRight') addHoverRight();
@@ -74,7 +76,7 @@ const HomePage = () => {
           </button>
         </div>
       </div>
-      
+
       {message && <p className="message">{message}</p>}
     </div>
   );
