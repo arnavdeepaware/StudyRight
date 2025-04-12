@@ -1,10 +1,8 @@
-// HomePage.jsx
-import React, { useEffect, useRef } from 'react';
-import './HomePage.css';
 import { useNavigate } from 'react-router-dom';
 
 const HomePage = () => {
   const navigate = useNavigate();
+
   const leftRef = useRef(null);
   const rightRef = useRef(null);
   const containerRef = useRef(null);
@@ -76,6 +74,8 @@ const HomePage = () => {
           </button>
         </div>
       </div>
+      
+      {message && <p className="message">{message}</p>}
     </div>
   );
 };

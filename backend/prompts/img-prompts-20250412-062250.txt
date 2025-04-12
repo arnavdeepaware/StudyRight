@@ -1,0 +1,13 @@
+An educational infographic showing a horizontal timeline with three labeled segments: \"Phone Screen\", \"Onsite Interview\", and \"Decision\". Each stage includes an icon: a phone, a laptop with video call, and a thumbs-up/checkmark. Use clean vector-style visuals with shades of blue, white, and black. College-style slide design, no clutter, minimalistic font.,
+    
+A clean split-screen layout: left side shows a student focused on a computer screen with code on display; right side shows the same student speaking confidently during a video interview. Include a digital timer in the top-right corner. Use flat design with soft shadows, minimalist layout, and 2–3 colors (blue, white, black).,
+
+An educational scene with two frames: one shows a student writing code on a laptop; the other shows the same student drawing boxes and arrows on a whiteboard to sketch a system architecture. Classroom setting implied. Simple, clean visuals with a consistent style and limited palette: blue, white, black.,
+
+A symbolic illustration of a winding road starting with a coding problem and leading to a \"solution\" flag. Along the road, place 2-3 signposts: \"Analyze\", \"Break Down\", \"Test\". Use subtle gradients in blue tones, and educational style icons. Clean vector layout, minimal background.,
+
+A student stands in front of a large digital whiteboard with a flowchart (boxes connected by arrows) partially drawn. They’re pointing to one node while holding a checklist or asking questions. Classroom lighting, clear contrast, blue and black as primary colors, modern academic theme.,
+
+A clean visual board showing an array, stack, binary tree, and graph—each represented with labeled diagrams. Use clear spacing and consistent line weight. Educational notebook design, soft color palette of blue, black, and white. Caption each structure subtly.,
+
+A side-by-side display of the LeetCode and HackerRank logos inside laptop screens, placed on a desk setup. Include subtle educational icons (checklists, coding brackets) in background. Design is sharp, flat, and uses 2–3 tones: blue, white, and black. Minimalist, not cartoonish.
