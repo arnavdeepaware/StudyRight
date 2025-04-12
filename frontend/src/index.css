@@ -1,18 +1,8 @@
-
 /* CSS for the Login Page */
-
 :root {
   --background: #1a1a2e; /* Dark blue background */
   --color: #ffffff;
   --primary-color: #0f3460;
-}
-
-* {
-  box-sizing: border-box;
-}
-
-html {
-  scroll-behavior: smooth;
 }
 
 body {
@@ -39,11 +29,6 @@ h1 {
   justify-content: center;
   align-items: center;
   height: 100vh;
-}
-
-.login-container {
-  position: relative;
-  width: 22.2rem;
 }
 
 .form-container {
@@ -97,14 +82,6 @@ h1 {
   transform: scale(1.02);
 }
 
-.circle {
-  width: 8rem;
-  height: 8rem;
-  background: var(--primary-color);
-  border-radius: 50%;
-  position: absolute;
-}
-
 .illustration {
   position: absolute;
   top: -14%;
@@ -121,108 +98,3 @@ h1 {
 .opacity {
   opacity: 0.3;
 }
-
-.create-video button:first-child {
-  margin-left: 0.75rem;
-  margin-right: 0.3rem; 
-}
-
-/* CSS for the Searchbar */
-
-.search-bar-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0.75rem 0.75rem; /* Leave 2rem space on both sides */
-  background-color: #f0f0f0;
-  border-radius: 8px;
-  padding: 0.3rem 1rem; /* Reduce height by decreasing padding */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.search-emoji {
-  font-size: 1.2rem; /* Slightly larger emoji */
-  margin-right: 0.5rem;
-  color: #646cff;
-}
-
-.search-bar {
-  flex: 1;
-  border: none;
-  outline: none;
-  font-size: 1rem;
-  background: transparent;
-  color: #333;
-  font-family: "Poppins", sans-serif;
-}
-
-.search-bar::placeholder {
-  color: #aaa;
-  font-style: italic;
-}
-
-/* CSS for the Recent Reels Container */
-
-.recent-reels-container {
-  flex: 1;
-  margin-left: 20px;
-  text-align: left;
-}
-
-/* CSS for the Notes Page to Align labels and input boxes to the left */
-
-.notes-container {
-  max-width: 600px;
-  margin: auto;
-  padding: 2rem;
-  text-align: left; /* Align text to the left */
-  background-color: #1a1a1a;
-  color: white;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-.notes-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-}
-
-.notes-container h1 {
-  margin-bottom: 1rem;
-}
-
-.notes-container label {
-  display: block;
-  margin-bottom: 0.5rem;
-  font-size: 1rem;
-  font-weight: bold;
-}
-
-.notes-container textarea,
-.notes-container input {
-  width: 100%;
-  padding: 1rem;
-  border: 1px solid #646cff;
-  border-radius: 4px;
-  font-size: 1rem;
-  background-color: #2a2a2a;
-  color: white;
-  margin-bottom: 1rem;
-}
-
-.notes-container button {
-  margin-top: 1rem;
-  padding: 0.7rem 1.5rem;
-  background-color: #646cff;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.notes-container button:hover {
-  background-color: #535bf2;
-}
-

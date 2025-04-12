@@ -1,47 +1,44 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import './HomePage.css'; // New CSS file for split layout
 import { useNavigate } from 'react-router-dom';
 
 const HomePage = () => {
   const navigate = useNavigate();
 
-  const handleCreateVideo = (option) => {
-    if (option === 'Type your notes') {
-      navigate('/notes'); // Navigate to the Notes page
-    } else {
-      alert(`You selected: ${option}`);
-    }
-  };
+  useEffect(() => {
+    const left = document.querySelector('.left');
+    const right = document.querySelector('.right');
+    const container = document.querySelector('.container');
+
+    const addHoverLeft = () => container.classList.add('hover-left');
+    const removeHoverLeft = () => container.classList.remove('hover-left');
+
+    const addHoverRight = () => container.classList.add('hover-right');
+    const removeHoverRight = () => container.classList.remove('hover-right');
+
+    left.addEventListener('mouseenter', addHoverLeft);
+    left.addEventListener('mouseleave', removeHoverLeft);
+    right.addEventListener('mouseenter', addHoverRight);
+    right.addEventListener('mouseleave', removeHoverRight);
+
+    return () => {
+      left.removeEventListener('mouseenter', addHoverLeft);
+      left.removeEventListener('mouseleave', removeHoverLeft);
+      right.removeEventListener('mouseenter', addHoverRight);
+      right.removeEventListener('mouseleave', removeHoverRight);
+    };
+  }, []);
 
   return (
-    <div className="home-container">
-      
-      <style>{`
-        h1 {
-          margin-left: 0.75rem;
-        }
-      `}</style>
-    
-      <h1>Welcome to StudyRight</h1>
-
-      <div className="recent-reels-container">
-        <h2>Recent Reels:</h2>
-        <p className="placeholder-text">No recent reels available. Start exploring!</p>
+    <div className="container">
+      <div className="split left">
+        <h1>Trending Reels</h1>
+        <button className="btn" onClick={() => navigate('/notes')}>Explore</button>
       </div>
-
-      <div className="search-bar-container">
-        <span className="search-emoji">🔍</span>
-        <input
-          type="text"
-          className="search-bar"
-          placeholder="Find a topic"
-        />
+      <div className="split right">
+        <h1>Create a Reel</h1>
+        <button className="btn" onClick={() => navigate('/notes')}>Start Now</button>
       </div>
-
-      <div className="create-video">
-        <button onClick={() => handleCreateVideo('Upload a file')}>Upload a file</button>
-        <button onClick={() => handleCreateVideo('Type your notes')}>Type your notes</button>
-      </div>
-
     </div>
   );
 };
