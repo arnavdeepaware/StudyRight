@@ -12,20 +12,23 @@ const NotesPage = () => {
 
   return (
     <div className="notes-container">
+      
       <h1>Text/Script Editor</h1>
+
       <div>
-        <label htmlFor="video-title">Enter your video title:</label>
+        <h3>Enter your video title:</h3>
         <textarea
           id="video-title"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           placeholder="Enter your video title here..."
-          rows="2"
+          rows="1"
           cols="50"
         ></textarea>
       </div>
+
       <div>
-        <label htmlFor="video-notes">Enter your notes here:</label>
+        <h3>Enter your notes here:</h3>
         <textarea
           id="video-notes"
           value={notes}
@@ -35,9 +38,11 @@ const NotesPage = () => {
           cols="50"
         ></textarea>
       </div>
+
       <div>
-        <button onClick={handleSave}>Save Notes</button>
+        <button onClick={handleSave}>Generate Reels</button>
       </div>
+
     </div>
   );
 };
