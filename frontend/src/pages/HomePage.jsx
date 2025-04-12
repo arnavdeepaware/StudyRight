@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import './HomePage.css'; // New CSS file for split layout
+import './HomePage.css';
 import { useNavigate } from 'react-router-dom';
 
 const HomePage = () => {
@@ -39,8 +39,8 @@ const HomePage = () => {
   return (
     <div className="container">
       <div className="split left">
-        <h1>Trending Reels</h1>
-        <button className="btn" onClick={() => navigate('/notes')}>Explore</button>
+        <h1>Your Reels</h1>
+        <button className="btn" onClick={() => navigate('/explore')}>Explore</button>
       </div>
       <div className="split right">
         <h1>Create a Reel</h1>
