@@ -1,0 +1,111 @@
+/* Notes Page CSS - Colorful & Simplistic Theme */
+
+/* Main container styling */
+.notes-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem;
+    background-color: #f8f9fa;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    font-family: 'Poppins', sans-serif;
+  }
+  
+  /* Page title */
+  .notes-container h1 {
+    text-align: center;
+    color: #6c5ce7;
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    font-weight: 700;
+  }
+  
+  /* Section titles */
+  .notes-container h3 {
+    color: #6c5ce7;
+    font-size: 1.3rem;
+    margin-bottom: 0.75rem;
+    font-weight: 600;
+  }
+  
+  /* Text area styling */
+  .notes-container textarea {
+    width: 100%;
+    padding: 1rem;
+    border: 2px solid #dfe6e9;
+    border-radius: 8px;
+    font-size: 1rem;
+    margin-bottom: 1.5rem;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    resize: vertical;
+    font-family: 'Poppins', sans-serif;
+  }
+  
+  /* Text area focus state */
+  .notes-container textarea:focus {
+    outline: none;
+    border-color: #6c5ce7;
+    box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.2);
+  }
+  
+  /* Video title textarea specific styling */
+  #video-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    height: 3rem;
+  }
+  
+  /* Generate button styling */
+  .notes-container button {
+    background-color: #6c5ce7;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 1rem 2rem;
+    font-size: 1.2rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    display: block;
+    margin: 0 auto;
+    box-shadow: 0 4px 6px rgba(108, 92, 231, 0.4);
+  }
+  
+  /* Button hover effect */
+  .notes-container button:hover {
+    background-color: #5b4dd1;
+    transform: translateY(-2px);
+  }
+  
+  /* Button active effect */
+  .notes-container button:active {
+    transform: translateY(1px);
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .notes-container {
+      padding: 1.5rem;
+    }
+    
+    .notes-container h1 {
+      font-size: 2rem;
+    }
+    
+    .notes-container button {
+      padding: 0.8rem 1.6rem;
+      font-size: 1.1rem;
+    }
+  }
+  
+  /* Container for each input section */
+  .notes-container > div {
+    margin-bottom: 2rem;
+  }
+  
+  /* Add a subtle gradient background to the page */
+  body {
+    background: linear-gradient(120deg, #e0c3fc 0%, #8ec5fc 100%);
+    min-height: 100vh;
+    padding: 2rem 1rem;
+  }

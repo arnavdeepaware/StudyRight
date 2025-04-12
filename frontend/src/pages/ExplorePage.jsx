@@ -1,55 +1,106 @@
-import React from 'react';
-import './ExplorePage.css'; // Import the CSS file for styling
+// ExplorePage.jsx
+import React, { useState } from 'react';
+import './ExplorePage.css';
+import { useNavigate } from 'react-router-dom';
 
 const ExplorePage = () => {
+  const [activePanel, setActivePanel] = useState(0);
+  const navigate = useNavigate();
+
   const panels = [
     {
-      title: 'Explore The World',
-      image: 'https://images.unsplash.com/photo-1558979158-65a1eaa08691?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80',
+      title: 'Machine Learning',
+      color: '#4A90E2', // Blue
+      description: 'Algorithms and statistical models that enable computers to learn'
     },
     {
-      title: 'Wild Forest',
-      image: 'https://images.unsplash.com/photo-1572276596237-5db2c3e16c5d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80',
+      title: 'Data Structures',
+      color: '#50C878', // Emerald
+      description: 'Efficient ways to organize and store data'
     },
     {
-      title: 'Sunny Beach',
-      image: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1353&q=80',
+      title: 'Algorithms',
+      color: '#9370DB', // Medium Purple
+      description: 'Step-by-step procedures for solving problems'
     },
     {
-      title: 'City on Winter',
-      image: 'https://images.unsplash.com/photo-1551009175-8a68da93d5f9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1351&q=80',
+      title: 'Quantum Computing',
+      color: '#FF6B6B', // Light Red
+      description: 'Computing using quantum-mechanical phenomena'
     },
     {
-      title: 'Mountains - Clouds',
-      image: 'https://images.unsplash.com/photo-1549880338-65ddcdfd017b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80',
+      title: 'Cybersecurity',
+      color: '#FFD700', // Gold
+      description: 'Protection of computer systems from theft and damage'
     },
   ];
 
   const handlePanelClick = (index) => {
-    const panels = document.querySelectorAll('.panel');
-    panels.forEach((panel, i) => {
-      if (i === index) {
-        panel.classList.add('active');
-      } else {
-        panel.classList.remove('active');
-      }
-    });
+    setActivePanel(index);
+  };
+
+  const handleBackClick = () => {
+    // Navigate back to the HomePage component
+    navigate('/');
   };
 
   return (
-    <div className="container">
-      {panels.map((panel, index) => (
-        <div
-          key={index}
-          className={`panel ${index === 0 ? 'active' : ''}`}
-          style={{ backgroundImage: `url(${panel.image})` }}
-          onClick={() => handlePanelClick(index)}
+    <div className="explore-container">
+      <div className="header">
+        <button 
+          className="back-button" 
+          onClick={handleBackClick}
+          aria-label="Go back to home page"
         >
-          <h3>{panel.title}</h3>
-        </div>
-      ))}
+          <svg className="back-arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M19 12H5"></path>
+            <path d="M12 19l-7-7 7-7"></path>
+          </svg>
+          <span>Back</span>
+        </button>
+        <h1 className="explore-title">Explore Computer Science</h1>
+      </div>
+      <div className="panels-container">
+        {panels.map((panel, index) => (
+          <div
+            key={index}
+            className={`panel ${index === activePanel ? 'active' : ''}`}
+            style={{ 
+              backgroundColor: panel.color,
+              backgroundImage: `linear-gradient(to bottom, ${panel.color}80, ${panel.color})` 
+            }}
+            onClick={() => handlePanelClick(index)}
+          >
+            <div className="panel-content">
+              <h3>{panel.title}</h3>
+              <p className="panel-description">{panel.description}</p>
+            </div>
+            <div className="panel-icon">
+              {getIconForTopic(panel.title)}
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   );
+};
+
+// Simple icon representation using text symbols
+const getIconForTopic = (topic) => {
+  switch(topic) {
+    case 'Machine Learning':
+      return '🧠';
+    case 'Data Structures':
+      return '🌲';
+    case 'Algorithms':
+      return '📊';
+    case 'Quantum Computing':
+      return '⚛️';
+    case 'Cybersecurity':
+      return '🔒';
+    default:
+      return '💻';
+  }
 };
 
 export default ExplorePage;

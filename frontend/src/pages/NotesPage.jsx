@@ -1,18 +1,18 @@
 import React, { useState } from 'react';
+import './NotesPage.css'; // ✅ This connects your CSS file
 
 const NotesPage = () => {
-  const [title, setTitle] = useState(''); // State for video title
-  const [notes, setNotes] = useState(''); // State for notes
+  const [title, setTitle] = useState('');
+  const [notes, setNotes] = useState('');
 
   const handleSave = () => {
     alert(`Video Title: ${title}\nNotes: ${notes}`);
-    setTitle(''); // Clear the title after saving
-    setNotes(''); // Clear the notes after saving
+    setTitle('');
+    setNotes('');
   };
 
   return (
     <div className="notes-container">
-      
       <h1>Text/Script Editor</h1>
 
       <div>
@@ -42,7 +42,6 @@ const NotesPage = () => {
       <div>
         <button onClick={handleSave}>Generate Reels</button>
       </div>
-
     </div>
   );
 };
