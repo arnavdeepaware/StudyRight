@@ -98,7 +98,7 @@ if __name__ == "__main__":
         # Uncomment to save image
         if image:
           os.makedirs('images', exist_ok=True)
-          output_path = os.path.join('images', f'gemini-native-image{i}.png')
+          output_path = os.path.join('images', f'{i}.png')
           image.save(output_path)
           print(f"Image saved to: {output_path}")
     

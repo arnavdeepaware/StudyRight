@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "deep-sphere-456607-s4",
+  "private_key_id": "3a7c0034bb4213c907dd8e3b919455f741cd0e7b",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCsa7a8/POFLetO\n+t9DE3wKXlye8f9EbrnRZCyuxgRrMdhNwkQ+15+OciPuriILu6nv0Nw4LVDk1h4X\n3d4j4cJiHcKVByORdnnBvNlbK/HSL+buo+s/SwgAYnRHwfvNZtJsHAZieepdTQX0\noz0+bXrWqwO5puIBGDJ+zNEC9WHtrOvnL3XZAG5MVmyiGML3wucsGMGK05GBMlds\nESLhlDZEyo0Jub5FMakQEowr7ujLgsvWD3Pz31Wmx+uK59b2lkDV37rDT1zvbzC2\nUKkJpU/UCl2bjgxJ+UeDWLid2IB88utXOytbbKnfEF/p1zcy77++pkGJI6tYgL5v\n3SSaMiKdAgMBAAECgf8wvnl6QrooasVA1nhp4RhIBepf+slOeuc5u8LmE0Thb47B\nTjE90E2/YVj2+5Ib6AMEKNSNPPPss3z61RqiljPHxqjjJtZseP2FukROtUoVVQ8Z\n0eg01vqYfWXuJEVCHkOA1UXg6evZhbZLcvKcnwF3Y65Nw7O6lKiZ9lCzUjfG//Ny\nqAL7OmLC2Vxo0TxeLa/9XOPWH6L+PPfU+z6btNlyoBHN4IBoWdnAiTRBYWu/jV1j\nfxtDLj+CvurQSYsUgZXYEarV4O9aPCsrZot75wgYFpFVShiuoDGOcMf1duFRXm0M\nAlDJS4JOuU6Ix4hJpJEGSKG201EYPT05X0NcOxECgYEA3b9mOE+/v4yO0AitTjg1\nYsbwFeXWfjAqbHQ/4qJxZk6wdE9b7D462tG1/yoES1juJBLEEr8Q06VDlFaS+nBr\ndiTLXdvtc7rKsngkZAMikKldAZa5DRvWZ2C6Q6dNDk9Xh0cKZ9EfEnwY8FsIO3fX\nRA2tLd1GpsgPHCmImWSjDhcCgYEAxw3GDv6kXBBOEMpPYCSqqB2fncf7ix8ysLWv\nWmlU1kEoKSF3DjzrzKccVBC7j0SA3xr9OXOmQ6nc6GvHblNW2KOuhZDjYh2LZgg7\ntjM+C8V3bB7OJdwo1U2/IEK9lWyt13ZQ02dFYMNkhSQy07w4jQtxPM4K/IvJ99cI\nfd2NGWsCgYEAxpuJKGJ1MVDpEHbVEjvRxPi9TD+hD0CAnsa3+XrY6nMMJAB4Km3K\nNPajdTjiw8GQ+Yo9RzUOEyHwF0o7Nke+WAC4jQZP9NmWdqaYoWMVcE/g121xrMYE\nEG9YJQQRRgHWOXltXnK0y8+OXqiKBQlfKrq9I1kO0I5ayjSA/jJewF0CgYBHLOun\nLPKEYOgpJM4hKLtFBeKvPnT5mBw+B5k+EO/e9Mlxe5/gnXQLZ62/eYQ3hF04aaQm\nSO4ov7JYAUH8dxxUtqKO6/ICgWH5B/Sh/8yt1NwQ8yrvarvHGde/p1228ndu1cWs\n8f5izTtCSGFMSL9H39GL1nkjOLDtSBynNPNhJQKBgQC7uJ8v++R68bO9FWutsiRg\nIaBQ8rhpwD++gvlyYH8LgbshxgyjYkKoicgMd9BDUeepcPAEr6RysbR8c/x7GjTV\nAmSs4savZyOuKz3pFFHe0GJHAgsY1iMiXsX8PbqoKCFuR/wPRDuzpEMoDs7nLS31\nwAYpqBWD1gZlRxrdeDcsJQ==\n-----END PRIVATE KEY-----\n",
+  "client_email": "arnav-audio@deep-sphere-456607-s4.iam.gserviceaccount.com",
+  "client_id": "104370854917436221743",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/arnav-audio%40deep-sphere-456607-s4.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
