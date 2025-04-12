@@ -38,6 +38,8 @@ h1 {
   backdrop-filter: blur(20px);
   z-index: 99;
   padding: 2rem;
+  width: 400px; /* Increase the width */
+  max-width: 90%; /* Ensure responsiveness */
 }
 
 .login-container form input {
@@ -92,7 +94,12 @@ h1 {
 .register-forget {
   margin: 1rem 0;
   display: flex;
-  justify-content: space-between;
+  flex-direction: column; /* Stack items vertically */
+  align-items: center; /* Center items horizontally */
+}
+
+.register-forget a {
+  margin: 0.5rem 0; /* Add spacing between the links */
 }
 
 .opacity {
