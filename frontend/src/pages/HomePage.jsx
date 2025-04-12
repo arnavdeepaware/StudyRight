@@ -1,6 +1,6 @@
-import React, { useRef, useEffect, useState } from 'react'; // missing imports!
+import React, { useRef, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './HomePage.css'; // if you have CSS
+import './HomePage.css';
 
 const HomePage = () => {
   const navigate = useNavigate();
@@ -67,13 +67,22 @@ const HomePage = () => {
         <div className="content">
           <h1>Create a Reel</h1>
           <p className="description">Share your creativity with the world</p>
-          <button 
-            className="btn" 
-            onClick={() => navigate('/notes')}
-            aria-label="Start creating a reel"
-          >
-            Start Now
-          </button>
+          <div className="button-group">
+            <button 
+              className="btn" 
+              onClick={() => navigate('/upload')}
+              aria-label="Upload content for a reel"
+            >
+              Upload
+            </button>
+            <button 
+              className="btn" 
+              onClick={() => navigate('/type-notes')}
+              aria-label="Type notes for a reel"
+            >
+              Type Your Notes
+            </button>
+          </div>
         </div>
       </div>
 
