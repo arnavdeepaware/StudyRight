@@ -42,7 +42,7 @@ def generate_audio(text, filename):
         audio_config = texttospeech.AudioConfig(
             audio_encoding=texttospeech.AudioEncoding.MP3,
             effects_profile_id=["small-bluetooth-speaker-class-device"],
-            speaking_rate=1.37,  # Slightly faster than normal
+            speaking_rate=1.24,  # Slightly faster than normal
             pitch=0.0,  # Default pitch
         )
 
