@@ -1,36 +1,39 @@
-// ExplorePage.jsx
 import React, { useState } from 'react';
 import './ExplorePage.css';
 import { useNavigate } from 'react-router-dom';
+import VideoGallery from "../components/VideoGallery";
 
 const ExplorePage = () => {
   const [activePanel, setActivePanel] = useState(0);
   const navigate = useNavigate();
 
+  // TODO: replace with actual userId from JWT or Mongo later
+  const userId = 'replace_with_your_user_id_here';
+
   const panels = [
     {
       title: 'Machine Learning',
-      color: '#4A90E2', // Blue
+      color: '#4A90E2',
       description: 'Algorithms and statistical models that enable computers to learn'
     },
     {
       title: 'Data Structures',
-      color: '#50C878', // Emerald
+      color: '#50C878',
       description: 'Efficient ways to organize and store data'
     },
     {
       title: 'Algorithms',
-      color: '#9370DB', // Medium Purple
+      color: '#9370DB',
       description: 'Step-by-step procedures for solving problems'
     },
     {
       title: 'Quantum Computing',
-      color: '#FF6B6B', // Light Red
+      color: '#FF6B6B',
       description: 'Computing using quantum-mechanical phenomena'
     },
     {
       title: 'Cybersecurity',
-      color: '#FFD700', // Gold
+      color: '#FFD700',
       description: 'Protection of computer systems from theft and damage'
     },
   ];
@@ -40,7 +43,6 @@ const ExplorePage = () => {
   };
 
   const handleBackClick = () => {
-    // Navigate back to the HomePage component
     navigate('/');
   };
 
@@ -60,6 +62,7 @@ const ExplorePage = () => {
         </button>
         <h1 className="explore-title">Explore Topics</h1>
       </div>
+
       <div className="panels-container">
         {panels.map((panel, index) => (
           <div
@@ -81,11 +84,16 @@ const ExplorePage = () => {
           </div>
         ))}
       </div>
+
+      {/* ✅ VideoGallery below the panels */}
+      <div className="video-gallery-section">
+        <h2 className="explore-subtitle">Your Generated Videos</h2>
+        <VideoGallery userId={userId} />
+      </div>
     </div>
   );
 };
 
-// Simple icon representation using text symbols
 const getIconForTopic = (topic) => {
   switch(topic) {
     case 'Machine Learning':
@@ -101,6 +109,8 @@ const getIconForTopic = (topic) => {
     default:
       return '💻';
   }
+
+  
 };
 
 export default ExplorePage;
