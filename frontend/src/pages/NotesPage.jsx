@@ -13,10 +13,10 @@ const NotesPage = () => {
 
   return (
     <div className="notes-container">
-      <h1>Text/Script Editor</h1>
+      <h1>Text Editor</h1>
 
       <div>
-        <h3>Enter your video title:</h3>
+        <h3>Enter your lecture topic:</h3>
         <textarea
           id="video-title"
           value={title}
@@ -40,7 +40,7 @@ const NotesPage = () => {
       </div>
 
       <div>
-        <button onClick={handleSave}>Generate Reels</button>
+        <button onClick={handleSave}>Generate</button>
       </div>
     </div>
   );

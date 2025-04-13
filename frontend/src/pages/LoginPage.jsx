@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import './LoginPage.css';
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
@@ -20,44 +21,43 @@ const LoginPage = () => {
 
   return (
     <div className="container">
-      
-      <div className="login-container">
-        
-        <div className="form-container">
-        <img
-          src="https://raw.githubusercontent.com/hicodersofficial/glassmorphism-login-form/master/assets/illustration.png"
-          alt="illustration"
-          className="illustration"
-        />
-          <h1 className="opacity">LOGIN</h1>
-
-          <form onSubmit={handleLogin}>
-            <input
-              type="email"
-              placeholder="USERNAME"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
-            <input
-              type="password"
-              placeholder="PASSWORD"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-            <button type="submit" className="opacity">SUBMIT</button>
-          </form>
-
-          <div className="register-forget opacity">
-            <a href="#">REGISTER</a>
-            <a href="#">FORGOT PASSWORD</a>
-          </div>
-
+      <div className="main-container">
+        {/* Left side - Brand section /}
+        <div className="brand-container">
+          <h1 className="brand-title">StudyRight</h1>
+          <p className="brand-tagline">Welcome to your way of Studying Right</p>
         </div>
 
-      </div>
+        {/ Right side - Login form */}
+        <div className="login-container">
+          <div className="form-container">
+            <h1 className="opacity" style={{textAlign: 'center'}}>Sign In</h1>
 
+            <form onSubmit={handleLogin}>
+              <input
+                type="email"
+                placeholder="USERNAME"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
+              <input
+                type="password"
+                placeholder="PASSWORD"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+              <button type="submit" className="opacity">SUBMIT</button>
+            </form>
+
+            <div className="register-forget opacity">
+              <a href="#">REGISTER</a>
+              <a href="#">FORGOT PASSWORD</a>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

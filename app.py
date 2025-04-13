@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify
 from database.mongo import mongo
-from database import auth_controller
+import database.models.auth_controller as auth_controller
 from dotenv import load_dotenv
 from datetime import datetime
 import os
@@ -88,3 +88,17 @@ def upload_from_output():
 
 if __name__ == '__main__':
     app.run(debug=True)
+
+
+@app.route('/api/videos/<user_id>', methods=['GET'])
+def get_user_videos(user_id):
+    try:
+        videos = list(mongo.db.videos.find({"user_id": user_id}))
+        for video in videos:
+            video["_id"] = str(video["_id"])  # Convert ObjectId to string
+            video["uploadedAt"] = video["uploadedAt"].isoformat()  # Convert datetime
+
+        return jsonify({"videos": videos})
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
