@@ -1,20 +1,20 @@
 # Main Memory: Bytes and Bits
-Think of your computer's main memory like a giant grid. Each cell holds a tiny piece of information called a bit, represented by 1 or 0. Eight of these bits make a byte.
+Think of your computer's main memory like a massive grid. It's made up of bytes, and each byte has 8 bits. Each bit can be either a one or a zero.
 
 # Memory Addresses: Finding Bytes
-Each byte has its own special address, just like your house! The computer uses these addresses to quickly find and use the data stored there.
+Every byte has an address, like a house number, starting from zero. This allows programs to quickly find and use the data stored in specific memory locations.
 
 # Words: Groups of Bytes
-Sometimes, the computer needs to work with larger chunks of data. It combines pairs of bytes into 'words,' which are twice the size.
+Sometimes, we need to work with groups of bytes together. These pairs are called 'words'. So Bytes 2 and 3 would make one word in Memory.
 
-# Coding Integers: Two's Complement
-Since computers only understand 0s and 1s, they need a special code to represent numbers, including negative ones. That code is called Two's Complement.
+# Encoding Data: From Numbers to Bits
+Computers only understand zeros and ones. So, we use special 'codes' like two's complement to turn numbers and letters into binary for storage.
 
-# Coding Characters: ASCII and Unicode
-But what about letters and symbols? Computers use coding schemes like ASCII or Unicode. Each character gets a unique number that the computer can store.
+# ASCII and Unicode: Character Codes
+Characters also need to be encoded. Common systems are ASCII, using one byte per character, and Unicode, which uses two, allowing for many more character possibilities!
 
-# Machine Language: Instructions for the CPU
-The CPU only understands one language: machine language! Programs are essentially lists of instructions written in machine language, which the CPU can directly execute.
+# Machine Language: CPU Instructions
+The CPU understands machine language, which is a sequence of instructions represented by bytes. Different CPUs can have different machine languages.
 
-# Volatile Memory: Remember, It's Temporary!
-Main memory is fast, but it's temporary. When you turn off the computer, everything in main memory is erased. That's why we need storage drives!
+# Volatile Memory: The Data Vanishes
+Main memory is volatile, which means when you turn off your computer, all the data in main memory is lost. That's why we need other storage like hard drives!
