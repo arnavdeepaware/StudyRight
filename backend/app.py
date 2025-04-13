@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_file
 from flask_cors import CORS
 import os
 from werkzeug.utils import secure_filename
@@ -43,6 +43,213 @@ def upload_file():
         })
     
     return jsonify({'error': 'File type not allowed'}), 400
+
+@app.route('/api/video/<filename>', methods=['GET'])
+def get_video(filename):
+    """
+    Generate and return a video from an uploaded file
+    
+    Args:
+        filename (str): The name of the file to convert to video
+        
+    Returns:
+        Response: The video file or error message
+    """
+    filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+    
+    # Check if the file exists
+    if not os.path.exists(filepath):
+        return jsonify({'error': 'File not found'}), 404
+    
+    # Process the file to generate a video
+    result = file_to_video(filepath)
+    
+    if result["status"] == "success" and os.path.exists(result["output_video"]):
+        # Return the video file
+        return send_file(result["output_video"], mimetype='video/mp4')
+    else:
+        # Return error details
+        return jsonify({
+            'error': 'Failed to generate video',
+            'details': result
+        }), 500
+
+def file_to_video(file_path):
+    """
+    Process an uploaded file through the complete video generation pipeline.
+    
+    This function orchestrates the following steps:
+    1. Extract text content from the uploaded file
+    2. Process the extracted text with Gemini AI and generate prompts
+    3. Parse the prompts into separate audio and image instructions
+    4. Generate images from the image prompts
+    5. Generate audio from the audio prompts
+    6. Create a video by combining the generated images and audio
+    
+    Args:
+        file_path (str): Path to the uploaded file
+        
+    Returns:
+        dict: Status information including success/failure and output video path
+    """
+    import os
+    import json
+    import sys
+    import shutil
+    from extract import process_uploaded_file
+    import importlib.util
+    
+    # Create a results dictionary to track progress
+    results = {
+        "status": "processing",
+        "steps": {},
+        "output_video": None,
+        "error": None
+    }
+    
+    try:
+        # Get just the filename from the path
+        filename = os.path.basename(file_path)
+        print(f"🔄 Starting video generation pipeline for: {filename}")
+        
+        # Step 1: Extract text and process with Gemini AI
+        print("📄 Step 1: Extracting document content...")
+        extraction_result = process_uploaded_file(filename)
+        results["steps"]["extraction"] = extraction_result
+        
+        if "error" in extraction_result:
+            results["status"] = "failed"
+            results["error"] = extraction_result["error"]
+            return results
+            
+        print("✅ Document extraction complete")
+        
+        # Step 2: Parse the AI-generated prompts into audio and image instructions
+        print("🔍 Step 2: Parsing summary into prompts...")
+        
+        # Import the parse_summary module
+        parse_spec = importlib.util.spec_from_file_location("parse_summary", 
+                                                           "parse-summary.py")
+        parse_module = importlib.util.module_from_spec(parse_spec)
+        parse_spec.loader.exec_module(parse_module)
+        
+        # Process the summary file to extract prompts
+        prompts_dir = 'prompts'
+        json_path = os.path.join(prompts_dir, 'all_prompts.json')
+        audio_path, image_path = parse_module.process_summary_file(json_path, prompts_dir)
+        
+        if not audio_path or not image_path:
+            results["status"] = "failed"
+            results["error"] = "Failed to parse prompts from summary"
+            return results
+            
+        results["steps"]["parsing"] = {
+            "audio_prompts": audio_path,
+            "image_prompts": image_path
+        }
+        print("✅ Prompts parsed successfully")
+        
+        # Step 3: Generate images from prompts
+        print("🎨 Step 3: Generating images...")
+        
+        # Clean images directory before generating new ones
+        images_dir = 'images'
+        if os.path.exists(images_dir):
+            shutil.rmtree(images_dir)
+        os.makedirs(images_dir, exist_ok=True)
+        
+        # Import the image generation module
+        img_spec = importlib.util.spec_from_file_location("gen_img", "gen-img.py")
+        img_module = importlib.util.module_from_spec(img_spec)
+        img_spec.loader.exec_module(img_module)
+        
+        # Generate images
+        img_module.main()
+        
+        # Check if images were created
+        image_files = [f for f in os.listdir(images_dir) if f.lower().endswith(('.png', '.jpg', '.jpeg'))]
+        if not image_files:
+            results["status"] = "failed"
+            results["error"] = "Failed to generate images"
+            return results
+            
+        results["steps"]["images"] = {
+            "count": len(image_files),
+            "directory": images_dir
+        }
+        print(f"✅ Generated {len(image_files)} images")
+        
+        # Step 4: Generate audio from prompts
+        print("🔊 Step 4: Generating audio...")
+        
+        # Clean audio directory before generating new ones
+        audio_dir = 'audios'
+        if os.path.exists(audio_dir):
+            shutil.rmtree(audio_dir)
+        os.makedirs(audio_dir, exist_ok=True)
+        
+        # Import the audio generation module
+        aud_spec = importlib.util.spec_from_file_location("gen_aud", "gen-aud.py")
+        aud_module = importlib.util.module_from_spec(aud_spec)
+        aud_spec.loader.exec_module(aud_module)
+        
+        # Generate audio
+        aud_module.generate_all_audio_files()
+        
+        # Check if audio files were created
+        audio_files = [f for f in os.listdir(audio_dir) if f.lower().endswith(('.mp3', '.wav'))]
+        if not audio_files:
+            results["status"] = "failed"
+            results["error"] = "Failed to generate audio files"
+            return results
+            
+        results["steps"]["audio"] = {
+            "count": len(audio_files),
+            "directory": audio_dir
+        }
+        print(f"✅ Generated {len(audio_files)} audio files")
+        
+        # Step 5: Create video by combining images and audio
+        print("🎬 Step 5: Creating final video...")
+        
+        # Clean temp_videos and output directories
+        temp_dir = 'temp_videos'
+        output_dir = 'output'
+        for directory in [temp_dir, output_dir]:
+            if os.path.exists(directory):
+                shutil.rmtree(directory)
+            os.makedirs(directory, exist_ok=True)
+        
+        # Import the movie creation module
+        movie_spec = importlib.util.spec_from_file_location("movie", "movie.py")
+        movie_module = importlib.util.module_from_spec(movie_spec)
+        movie_spec.loader.exec_module(movie_module)
+        
+        # Create the video
+        result_code = movie_module.process_videos()
+        
+        # Check if final video was created
+        final_video_path = os.path.join(output_dir, "final_video.mp4")
+        if result_code != 0 or not os.path.exists(final_video_path):
+            results["status"] = "failed"
+            results["error"] = f"Failed to create final video (exit code: {result_code})"
+            return results
+        
+        # Success
+        results["status"] = "success"
+        results["output_video"] = final_video_path
+        print(f"✅ Final video created at: {final_video_path}")
+        
+        return results
+        
+    except Exception as e:
+        import traceback
+        error_details = traceback.format_exc()
+        results["status"] = "failed"
+        results["error"] = f"Error in video generation pipeline: {str(e)}"
+        results["error_details"] = error_details
+        print(f"❌ Error: {str(e)}")
+        return results
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
