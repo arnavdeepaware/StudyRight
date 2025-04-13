@@ -1,150 +1,495 @@
-/* Background */
-.notes-container {
-  max-width: calc(100% - 2cm); /* 2cm on left and 2cm on right */
-  width: calc(100% - 2cm); /* Ensuring width is consistent */
-  margin: 1cm; /* 2cm gap on all sides */
-  padding: 2rem; /* Keeping internal padding the same */
-  background-color: #f8f9fa;
-  border-radius: 16px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+:root {
+  /* Main Colors - synchronized with HomePage */
+  --primary-color: #6366f1;
+  --primary-hover: #4f46e5;
+  --secondary-color: #10b981;
+  --secondary-hover: #059669;
+  --dark-color: #1e293b;
+  --light-color: #f8fafc;
+  --gray-color: #64748b;
+  --border-color: #e2e8f0;
+  
+  /* Shadows */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  
+  /* Border Radius */
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-full: 9999px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
   font-family: 'Poppins', sans-serif;
-  min-height: 39rem;
 }
 
-/* Page title */
-.notes-container h1 {
-  text-align: center;
-  color: #6c5ce7;
-  font-size: 2.2rem;
-  margin-bottom: 1.5rem; /* Reduced vertical space */
-  font-weight: 700;
-  letter-spacing: 0.5px;
-  position: relative;
-  padding-bottom: 0.5rem;
-}
-
-/* Decorative line under main title */
-.notes-container h1:after {
-  content: "";
-  position: absolute;
-  width: 80px;
-  height: 4px;
-  background: linear-gradient(90deg, #6c5ce7, #a29bfe);
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  border-radius: 2px;
-}
-
-/* Section titles */
-.notes-container h3 {
-  color: #6c5ce7;
-  font-size: 1.2rem;
-  margin-bottom: 0.6rem;
-  font-weight: 600;
-}
-
-/* Text area styling */
-.notes-container textarea {
-  width: 100%;
-  padding: 1rem;
-  border: 2px solid #e0e6ed;
-  border-radius: 10px;
-  font-size: 1rem;
-  margin-bottom: 0.8rem; /* Reduced from 1.2rem to decrease gap */
-  transition: all 0.3s ease;
-  resize: vertical;
-  font-family: 'Poppins', sans-serif;
-  background-color: white;
-  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.03);
-}
-
-/* Text area focus state */
-.notes-container textarea:focus {
-  outline: none;
-  border-color: #6c5ce7;
-  box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.15);
-}
-
-/* Text area placeholder styling */
-.notes-container textarea::placeholder {
-  color: #a0aec0;
-  font-style: italic;
-}
-
-/* Video title textarea specific styling */
-#video-title {
-  font-size: 1.1rem;
-  font-weight: 500;
-  height: 3rem;
-}
-
-/* Notes textarea specific styling */
-#video-notes {
-  height: 12rem;
-}
-
-/* Generate button styling */
-.notes-container button {
-  background: linear-gradient(135deg, #6c5ce7, #8075e5);
-  color: white;
-  border: none;
-  border-radius: 10px;
-  padding: 0.9rem 2.2rem;
-  font-size: 1.1rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  display: block;
-  margin-left: 43%;
-  margin-top: 0%;
-  box-shadow: 0 4px 10px rgba(108, 92, 231, 0.35);
-  letter-spacing: 0.5px;
-}
-
-/* Button hover effect */
-.notes-container button:hover {
-  background: linear-gradient(135deg, #5b4dd1, #6c5ce7);
-  transform: translateY(-2px);
-  box-shadow: 0 6px 12px rgba(108, 92, 231, 0.4);
-}
-
-/* Button active effect */
-.notes-container button:active {
-  transform: translateY(1px);
-  box-shadow: 0 2px 8px rgba(108, 92, 231, 0.4);
-}
-
-/* Container for each input section */
-.notes-container > div {
-  margin-bottom: 1rem;
-}
-
-/* Add a subtle gradient background to the page - keeping as requested */
 body {
-  background: linear-gradient(120deg, #e0c3fc 0%, #8ec5fc 100%);
+  background: linear-gradient(135deg, rgba(16, 24, 39, 0.97), rgba(23, 25, 35, 0.95));
   min-height: 100vh;
-  padding: 2rem 1rem;
+  color: var(--light-color);
+}
+
+.notes-page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  max-height: 100vh; /* Ensure it doesn't overflow viewport height */
+  width: 100%;
+  overflow: hidden; /* Prevent any scrolling on the main container */
+}
+
+/* Header Styles - updated to be static */
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background: rgba(26, 32, 44, 0.95); /* More opaque for better visibility */
+  backdrop-filter: blur(8px);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  position: relative; /* Changed from sticky/fixed to relative */
+  z-index: 10; /* Still keep a reasonable z-index */
+  width: 100%;
+}
+
+/* Fix main content height */
+.main-content {
+  display: flex;
+  height: calc(100vh - 4rem); /* Subtract header height */
+  width: 100%;
+  overflow: hidden; /* Prevent scrolling on the container */
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  cursor: pointer;
+}
+
+.logo-icon {
   display: flex;
   justify-content: center;
   align-items: center;
+  width: 2.2rem;
+  height: 2.2rem;
+  background-color: var(--primary-color);
+  color: white;
+  font-weight: 700;
+  font-size: 1rem;
+  border-radius: 6px;
 }
 
-/* Responsive adjustments */
+.logo-text {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: white;
+}
+
+/* Nav menu styles */
+.nav-menu {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.nav-button {
+  background: transparent;
+  color: rgba(255, 255, 255, 0.8);
+  border: none;
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.nav-button:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+}
+
+.nav-button.logout {
+  color: #ef4444;
+}
+
+.nav-button.logout:hover {
+  background-color: rgba(239, 68, 68, 0.1);
+}
+
+/* Sidebar takes full height */
+.editor-sidebar {
+  width: 300px;
+  flex-shrink: 0;
+  background: rgba(30, 41, 59, 0.7);
+  backdrop-filter: blur(8px);
+  padding: 2rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid rgba(255, 255, 255, 0.07);
+  height: 100%;
+  overflow-y: auto; /* Allow scrolling if content is tall */
+}
+
+.editor-sidebar h2 {
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: white;
+}
+
+.sidebar-text {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.9rem;
+  line-height: 1.5;
+  margin-bottom: 2rem;
+}
+
+/* Adjust spacing in the sidebar */
+.sidebar-tips {
+  background: rgba(99, 102, 241, 0.1);
+  padding: 1.2rem;
+  border-radius: var(--radius-md);
+  margin-bottom: 2rem; /* Changed from auto to fixed value */
+  border: 1px solid rgba(99, 102, 241, 0.2);
+}
+
+.sidebar-tips h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 0.8rem;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.sidebar-tips ul {
+  list-style-type: none;
+}
+
+.sidebar-tips li {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 0.5rem;
+  padding-left: 1.2rem;
+  position: relative;
+}
+
+.sidebar-tips li::before {
+  content: '•';
+  position: absolute;
+  left: 0;
+  color: var(--primary-color);
+}
+
+/* Ensure button container has proper spacing */
+.generate-btn-container {
+  position: relative;
+  margin-top: 1.5rem;
+  width: 100%;
+}
+
+.generate-btn {
+  width: 100%;
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: var(--radius-md);
+  padding: 0.9rem;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.generate-btn:hover {
+  background-color: var(--primary-hover);
+  transform: translateY(-1px);
+}
+
+.generate-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.generate-btn.btn-disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+  background-color: #8588f7; /* Lighter version of primary color */
+}
+
+.generate-btn.btn-disabled:hover {
+  transform: none;
+  background-color: #8588f7;
+}
+
+.btn-hint {
+  position: absolute;
+  bottom: -25px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* Right side container */
+.editor-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+}
+
+/* Title container now inside editor-content */
+.title-container {
+  width: 100%;
+  padding: 1.25rem 2.5rem;
+  background: rgba(30, 41, 59, 0.6);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+/* Add styling for the title input */
+.title-input {
+  width: 100%;
+  background: transparent;
+  border: none;
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: white;
+  outline: none;
+  padding: 0.5rem 0;
+}
+
+.title-input::placeholder {
+  color: rgba(255, 255, 255, 0.3);
+}
+
+/* Main editor now takes remaining height */
+.editor-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: rgba(17, 24, 39, 0.5);
+  height: 100%;
+}
+
+.notes-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  padding: 1.5rem 2.5rem;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.9);
+  resize: none;
+  outline: none;
+  height: 100%;
+}
+
+.notes-input::placeholder {
+  color: rgba(255, 255, 255, 0.3);
+}
+
+/* Message Toast - sleeker version */
+.message-toast {
+  position: fixed;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  padding: 0.75rem 1.5rem;
+  background-color: rgba(17, 24, 39, 0.9);
+  color: white;
+  border-radius: var(--radius-md);
+  z-index: 1000;
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2);
+  animation: fadeIn 0.3s ease;
+}
+
+.close-toast {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.2rem;
+  margin-left: 1rem;
+  cursor: pointer;
+  opacity: 0.7;
+}
+
+.close-toast:hover {
+  opacity: 1;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translate(-50%, 20px); }
+  to { opacity: 1; transform: translate(-50%, 0); }
+}
+
+/* Loading Overlay - sleeker version */
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(17, 24, 39, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  backdrop-filter: blur(8px);
+}
+
+.processing-container {
+  background: rgba(30, 41, 59, 0.7);
+  backdrop-filter: blur(10px);
+  border-radius: var(--radius-lg);
+  padding: 2rem;
+  width: 90%;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2);
+}
+
+.loader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.spinner {
+  width: 50px;
+  height: 50px;
+  border: 3px solid rgba(255, 255, 255, 0.1);
+  border-left-color: var(--primary-color);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+.processing-title {
+  color: white;
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  text-align: center;
+}
+
+.processing-step {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.9rem;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.processing-steps {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0 0.5rem;
+}
+
+.step-indicator {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.step-ball {
+  width: 0.9rem;
+  height: 0.9rem;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.15);
+  transition: all 0.3s ease;
+}
+
+.step-line {
+  height: 2px;
+  background-color: rgba(255, 255, 255, 0.15);
+  flex: 1;
+  transition: all 0.3s ease;
+}
+
+.step-indicator span {
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.5);
+  white-space: nowrap;
+  transition: all 0.3s ease;
+}
+
+.step-indicator.active .step-ball {
+  background-color: var(--primary-color);
+  box-shadow: 0 0 10px rgba(99, 102, 241, 0.5);
+}
+
+.step-line.active {
+  background-color: var(--primary-color);
+}
+
+.step-indicator.active span {
+  color: white;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Responsive Design */
 @media (max-width: 768px) {
-  .notes-container {
+  .app-header {
+    padding: 0.75rem 1.25rem;
+  }
+  
+  .nav-button {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.8rem;
+  }
+  
+  .main-content {
+    flex-direction: column;
+    height: calc(100vh - 3.5rem); /* Adjusted for smaller header */
+  }
+  
+  .editor-sidebar {
+    width: 100%;
+    height: auto;
     padding: 1.5rem;
+    border-right: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
   }
   
-  .notes-container h1 {
-    font-size: 1.8rem;
+  .editor-content {
+    height: 0;
+    flex: 1;
   }
   
-  .notes-container button {
-    padding: 0.8rem 1.6rem;
-    font-size: 1rem;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 0;
+  .title-container {
+    padding: 1rem 1.5rem;
+  }
+  
+  .title-input {
+    font-size: 1.4rem;
+  }
+  
+  .notes-input {
+    padding: 1rem 1.5rem;
   }
 }
