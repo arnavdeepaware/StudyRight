@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './NotesPage.css'; // ✅ This connects your CSS file
+import './NotesPage.css';
 
 const NotesPage = () => {
   const [title, setTitle] = useState('');

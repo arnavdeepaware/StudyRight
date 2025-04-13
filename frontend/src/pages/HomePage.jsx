@@ -70,14 +70,14 @@ const HomePage = () => {
           <div className="button-group">
             <button 
               className="btn" 
-              onClick={() => navigate('/upload')}
+              onClick={() => navigate('/notes')}
               aria-label="Upload content for a reel"
             >
               Upload
             </button>
             <button 
               className="btn" 
-              onClick={() => navigate('/type-notes')}
+              onClick={() => navigate('/notes')}
               aria-label="Type notes for a reel"
             >
               Type Your Notes
