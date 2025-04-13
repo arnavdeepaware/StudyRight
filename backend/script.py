@@ -54,3 +54,5 @@ def cleanup_directories():
     
     print("Cleanup complete!")
 
+if __name__ == "__main__":
+    cleanup_directories()
