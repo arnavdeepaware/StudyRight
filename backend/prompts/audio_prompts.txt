@@ -1,11 +1,20 @@
-Think of main memory as a bunch of tiny boxes called bytes. Each byte holds 8 bits. These bits are the fundamental building blocks: either a 0 or a 1.
+# Main Memory: Bytes and Bits
+Think of your computer's main memory like a giant grid. Each cell holds a tiny piece of information called a bit, represented by 1 or 0. Eight of these bits make a byte.
 
-Each byte has an address, starting from zero. It's like having a number on each house on a street. We can use this address to find the byte we need!
+# Memory Addresses: Finding Bytes
+Each byte has its own special address, just like your house! The computer uses these addresses to quickly find and use the data stored there.
 
-Sometimes we group two bytes together. This forms a 'word', often used to store bigger chunks of information.
+# Words: Groups of Bytes
+Sometimes, the computer needs to work with larger chunks of data. It combines pairs of bytes into 'words,' which are twice the size.
 
-To store numbers, we use a coding scheme to convert them into a series of 0s and 1s. A common scheme is called 2's Complement, which allows us to store both positive and negative numbers in memory.
+# Coding Integers: Two's Complement
+Since computers only understand 0s and 1s, they need a special code to represent numbers, including negative ones. That code is called Two's Complement.
 
-A program is just a list of instructions. Each instruction, like 'add' or 'subtract', is stored as a sequence of bytes that the computer understands.
+# Coding Characters: ASCII and Unicode
+But what about letters and symbols? Computers use coding schemes like ASCII or Unicode. Each character gets a unique number that the computer can store.
 
-Main memory is temporary. When you turn off the computer, everything stored in it is lost. That's why it's called volatile.
+# Machine Language: Instructions for the CPU
+The CPU only understands one language: machine language! Programs are essentially lists of instructions written in machine language, which the CPU can directly execute.
+
+# Volatile Memory: Remember, It's Temporary!
+Main memory is fast, but it's temporary. When you turn off the computer, everything in main memory is erased. That's why we need storage drives!
