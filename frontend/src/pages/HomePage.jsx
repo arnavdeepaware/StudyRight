@@ -15,16 +15,12 @@ const HomePage = () => {
   const leftRef = useRef(null);
   const rightRef = useRef(null);
   const containerRef = useRef(null);
-  const downloadLinkRef = useRef(null);
 
-  // Define processing steps
+  // Define simplified processing steps - only 3 stages
   const processingSteps = [
     { id: 'parse', label: 'Parsing your document...', description: 'Extracting key information from your lecture notes' },
-    { id: 'analyze', label: 'Analyzing content...', description: 'Identifying important concepts and organizing content' },
-    { id: 'images', label: 'Generating images...', description: 'Creating visual elements for your video' },
-    { id: 'audio', label: 'Creating audio narration...', description: 'Generating natural voice narration' },
-    { id: 'compile', label: 'Compiling video segments...', description: 'Combining all elements into your video' },
-    { id: 'finalize', label: 'Finalizing your video...', description: 'Optimizing quality and preparing download' }
+    { id: 'generate', label: 'Generating content...', description: 'Creating visuals and audio for your video' },
+    { id: 'render', label: 'Rendering final video...', description: 'Compiling elements into your downloadable video' }
   ];
 
   useEffect(() => {
@@ -65,7 +61,7 @@ const HomePage = () => {
     };
   }, []);
 
-  // Animated progression through processing steps
+  // Animated progression through processing steps - faster cycle
   useEffect(() => {
     let timer;
     if (isLoading) {
@@ -75,7 +71,7 @@ const HomePage = () => {
           setProcessingStep(processingSteps[newIndex].label);
           return newIndex;
         });
-      }, 3000);
+      }, 1500); // Reduced from 3000ms to 1500ms for faster cycling
     }
 
     return () => {
@@ -175,8 +171,6 @@ const HomePage = () => {
           <span className="logo-text">StudyRight</span>
         </div>
         <nav className="nav-menu">
-          <button className="nav-button" onClick={() => navigate('/profile')}>My Profile</button>
-          <button className="nav-button" onClick={() => navigate('/settings')}>Settings</button>
           <button className="nav-button logout" onClick={() => navigate('/')}>Logout</button>
         </nav>
       </header>
@@ -272,7 +266,7 @@ const HomePage = () => {
         </div>
       )}
       
-      {/* Enhanced loading indicator with animated processing steps */}
+      {/* Enhanced loading indicator with simplified processing steps */}
       {isLoading && (
         <div className="loading-overlay">
           <div className="processing-container">

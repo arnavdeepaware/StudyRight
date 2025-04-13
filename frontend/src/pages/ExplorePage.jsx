@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './ExplorePage.css';
 import { useNavigate } from 'react-router-dom';
-import VideoGallery from "../components/VideoGallery";
+//import VideoGallery from "../components/VideoGallery";
 
 const ExplorePage = () => {
   const [activePanel, setActivePanel] = useState(0);
@@ -86,10 +86,10 @@ const ExplorePage = () => {
       </div>
 
       {/* ✅ VideoGallery below the panels */}
-      <div className="video-gallery-section">
+      {/* <div className="video-gallery-section">
         <h2 className="explore-subtitle">Your Generated Videos</h2>
         <VideoGallery userId={userId} />
-      </div>
+      </div> */}
     </div>
   );
 };

@@ -577,7 +577,7 @@ h1 {
 .step-indicator.active span {
   color: white;
   font-weight: 500;
-}
+} 
 
 .step-ball::after {
   content: '';
