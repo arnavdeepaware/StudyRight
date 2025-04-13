@@ -37,25 +37,24 @@ def parse_gemini_output():
         audio_prompts = []
         image_prompts = []
         
-        # Extract sections using regex
-        sections = re.findall(
-            r'(?:- )?Title: (.*?)\n.*?Visual: (.*?)\n.*?Voiceover: "(.*?)"',
-            analysis,
-            re.DOTALL
-        )
+        # Updated regex pattern to match exactly with Gemini output
+        pattern = r'\*\*(\d+)\.\s*Title:\s*(.*?)\*\*\s*\*\*Caption:\*\*\s*(.*?)\s*\*\*Visual:\*\*\s*(.*?)\s*\*\*Voiceover:\*\*\s*"(.*?)"'
         
-        # Process each section
-        for title, visual, voiceover in sections:
+        sections = re.findall(pattern, analysis, re.DOTALL)
+        
+        # Process each section with updated tuple unpacking
+        for section_num, title, caption, visual, voiceover in sections:
             # Clean up the extracted text
             title = title.strip()
+            caption = caption.strip()
             visual = visual.strip()
             voiceover = voiceover.strip()
             
-            # Format audio prompts
-            audio_prompts.append(f"# {title}\n{voiceover}\n")
+            # Format audio prompts with section number
+            audio_prompts.append(f"# Section {section_num}: {title}\n{voiceover}\n")
             
-            # Format image prompts
-            image_prompts.append(f"# {title}\n{visual}\n")
+            # Format image prompts with section number and caption
+            image_prompts.append(f"# Section {section_num}: {title}\n{caption}\n\n{visual}\n")
         
         # Save audio prompts
         audio_path = prompts_dir / 'audio_prompts.txt'

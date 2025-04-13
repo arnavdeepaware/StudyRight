@@ -1,8 +1,6 @@
 # Linked List
 
-Linked List – Notes
-
-✅ What is a Linked List?
+What is a Linked List?
 
 A Linked List is a linear data structure where each element (node) contains:
 
@@ -53,3 +51,11 @@ Navigating browsers (forward/back history with DLL)
 Managing memory allocation
 Polynomial arithmetic
 Music/video playlist structures
+🧪 Example: Traverse a Linked List
+
+def traverse(head):
+    current = head
+    while current:
+        print(current.data, end=" -> ")
+        current = current.next
+    print("None")

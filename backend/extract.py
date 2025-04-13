@@ -187,8 +187,24 @@ def send_to_gemini(text):
         # Use Gemini 2.0 Flash model
         model = GenerativeModel("gemini-2.0-flash")
 
-        # Get prompt from environment variable
-        prompt_template = os.getenv('EXTRACT_FILE_PROMPT')
+        
+        prompt_template = '''
+You are assisting a college student in turning their academic material into short, fun, and engaging social media-style videos.
+
+Format exactly 5-6 key concepts like this (no extra newlines or spaces):
+
+**1. Title: [Title]**
+**Caption:** [Caption with hashtags]
+**Visual:** [Visual description]
+**Voiceover:** "[Conversational script]"
+
+**2. Title: [Title]**
+**Caption:** [Caption]
+**Visual:** [Visual]
+**Voiceover:** "[Script]"
+
+Content to process:
+'''
         
         # Format the prompt with the extracted text
         prompt = f"{prompt_template}\n\n{text[:5000]}"
