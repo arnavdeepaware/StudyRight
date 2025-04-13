@@ -1,0 +1,11 @@
+Think of main memory as a bunch of tiny boxes called bytes. Each byte holds 8 bits. These bits are the fundamental building blocks: either a 0 or a 1.
+
+Each byte has an address, starting from zero. It's like having a number on each house on a street. We can use this address to find the byte we need!
+
+Sometimes we group two bytes together. This forms a 'word', often used to store bigger chunks of information.
+
+To store numbers, we use a coding scheme to convert them into a series of 0s and 1s. A common scheme is called 2's Complement, which allows us to store both positive and negative numbers in memory.
+
+A program is just a list of instructions. Each instruction, like 'add' or 'subtract', is stored as a sequence of bytes that the computer understands.
+
+Main memory is temporary. When you turn off the computer, everything stored in it is lost. That's why it's called volatile.

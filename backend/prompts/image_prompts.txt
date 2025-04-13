@@ -1,0 +1,20 @@
+# Main Memory: Bytes & Bits
+A grid representing memory, highlighting a single byte. Inside the byte, show 8 individual bits, some as "0" and some as "1".
+
+# Memory Addresses: Finding Bytes
+The memory grid from before, now with numbers (0, 1, 2, 3...) labeling each byte's address. Highlight a specific byte and its address.
+
+# Words: Grouping Bytes Together
+The memory grid highlighting two adjacent bytes. Label these two bytes as a "word."
+
+# Integers: Storing Numbers as Bits
+Show the number "35" being converted into its binary representation (a sequence of 0s and 1s). Show this binary representation being placed into a byte.
+
+# Characters: Representing Text as Bits
+Show the letter "A" being converted into its ASCII code (a numerical value). Then show the ASCII code as its binary representation (a series of 0s and 1s) being placed into a byte.
+
+# Instructions: The Language of the Machine
+A sequence of bytes in memory, with annotations explaining that each set of bytes represents a different instruction for the CPU.
+
+# Volatile Memory: Temporary Storage
+A memory grid with data on it. Show a power plug being pulled, and the data disappearing (fading away) from the grid.

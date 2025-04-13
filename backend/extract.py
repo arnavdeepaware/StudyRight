@@ -1,10 +1,38 @@
-from vertexai.preview.language_models import ChatModel
+"""
+Document Extraction and Processing Module
+
+This module provides functionality to:
+1. Extract text from various document formats (PDF, DOCX, TXT, PPT, PPTX)
+   and images (PNG, JPEG)
+2. Process extracted text with Google's Gemini AI
+3. Save the analysis results as JSON in the prompts directory
+
+The processed output includes core concepts, explanations, visual descriptions,
+and voiceover scripts suitable for educational video creation.
+
+Dependencies:
+- vertexai: For communicating with Google's Gemini AI
+- PyPDF2: For PDF text extraction
+- python-docx: For Word document text extraction
+- python-pptx: For PowerPoint text extraction
+- pytesseract: For image text extraction (OCR)
+- Pillow: For image processing
+
+Usage:
+- To process a specific file: process_uploaded_file("filename.pdf")
+- To process the oldest file in uploads: process_oldest_file()
+- To extract file info without processing: extract_file_info("filename.pdf")
+"""
+
+from vertexai.generative_models import GenerativeModel
 import vertexai
 import os
 import json
 import PyPDF2
 import docx
 import datetime
+import pytesseract
+from PIL import Image
 from google.oauth2 import service_account
 from dotenv import load_dotenv
 
@@ -12,11 +40,24 @@ from dotenv import load_dotenv
 load_dotenv()
 
 def extract_text_from_file(filepath):
-    """Extract text from different file types"""
-    if filepath.endswith('.txt'):
-        with open(filepath, 'r', encoding='utf-8', errors='ignore') as file:
-            return file.read()
+    """
+    Extract text from different file types
     
+    Args:
+        filepath (str): Path to the file
+        
+    Returns:
+        str: Extracted text or error message
+    """
+    # Text files
+    if filepath.endswith('.txt'):
+        try:
+            with open(filepath, 'r', encoding='utf-8', errors='ignore') as file:
+                return file.read()
+        except Exception as e:
+            return f"Error extracting text file: {str(e)}"
+    
+    # PDF files
     elif filepath.endswith('.pdf'):
         text = ""
         try:
@@ -24,23 +65,108 @@ def extract_text_from_file(filepath):
                 pdf_reader = PyPDF2.PdfReader(file)
                 for page_num in range(len(pdf_reader.pages)):
                     text += pdf_reader.pages[page_num].extract_text() + "\n"
+            return text if text.strip() else "PDF contained no extractable text (might be scanned)"
         except Exception as e:
-            text = f"Error extracting PDF text: {str(e)}"
-        return text
+            return f"Error extracting PDF text: {str(e)}"
     
+    # Word documents
     elif filepath.endswith('.docx'):
         try:
             doc = docx.Document(filepath)
             text = "\n".join([para.text for para in doc.paragraphs])
-            return text
+            return text if text.strip() else "Word document contained no extractable text"
         except Exception as e:
             return f"Error extracting DOCX text: {str(e)}"
     
-    return "Unsupported file type"
+    # PowerPoint presentations
+    elif filepath.endswith('.ppt') or filepath.endswith('.pptx'):
+        try:
+            from pptx import Presentation
+            
+            # For .pptx files
+            if filepath.endswith('.pptx'):
+                presentation = Presentation(filepath)
+                text = ""
+                for slide in presentation.slides:
+                    for shape in slide.shapes:
+                        if hasattr(shape, "text"):
+                            text += shape.text + "\n"
+                return text if text.strip() else "PowerPoint contained no extractable text"
+            
+            # For .ppt files (legacy format)
+            else:
+                # PPT files require conversion or specialized libraries
+                return "Legacy PowerPoint (.ppt) files have limited text extraction. Consider converting to .pptx"
+                
+        except ImportError:
+            return "PowerPoint extraction requires python-pptx package. Install with: pip install python-pptx"
+        except Exception as e:
+            return f"Error extracting PowerPoint text: {str(e)}"
+    
+    # Image files (PNG, JPEG)
+    elif filepath.lower().endswith(('.png', '.jpg', '.jpeg')):
+        try:
+            # Check if pytesseract is properly installed
+            image = Image.open(filepath)
+            text = pytesseract.image_to_string(image)
+            return text if text.strip() else "No text detected in image"
+        except ImportError:
+            return "Image text extraction requires pytesseract. Install with: pip install pytesseract"
+        except Exception as e:
+            return f"Error extracting text from image: {str(e)}"
+    
+    # Unsupported file type
+    return f"Unsupported file type: {os.path.splitext(filepath)[1]}"
 
-from vertexai.generative_models import GenerativeModel
+def extract_file_info(filename):
+    """
+    Extract information from a file without processing it with Gemini
+    
+    Args:
+        filename (str): Name of the file in the uploads directory
+        
+    Returns:
+        dict: File information including extracted text and metadata
+    """
+    # Construct file path
+    uploads_dir = 'uploads'
+    filepath = os.path.join(uploads_dir, filename)
+    
+    # Check if file exists
+    if not os.path.exists(filepath):
+        return {"error": f"File {filename} not found in uploads directory"}
+    
+    # Get file stats
+    file_stats = os.stat(filepath)
+    file_size = file_stats.st_size
+    mod_time = datetime.datetime.fromtimestamp(file_stats.st_mtime).isoformat()
+    
+    # Extract text from file
+    extracted_text = extract_text_from_file(filepath)
+    
+    # Create and return the file info dictionary
+    file_info = {
+        "filename": filename,
+        "filepath": filepath,
+        "file_size_bytes": file_size,
+        "last_modified": mod_time,
+        "extraction_time": datetime.datetime.now().isoformat(),
+        "extracted_text": extracted_text,
+        "text_preview": extracted_text[:500] + "..." if len(extracted_text) > 500 else extracted_text
+    }
+    
+    return file_info
 
 def send_to_gemini(text):
+    """
+    Send extracted text to Google's Gemini AI for processing
+    
+    Args:
+        text (str): Text content to be analyzed
+        
+    Returns:
+        str: Gemini's analysis or error message
+    """
     try:
         # Use service account credentials
         credentials = service_account.Credentials.from_service_account_file(
@@ -61,29 +187,11 @@ def send_to_gemini(text):
         # Use Gemini 2.0 Flash model
         model = GenerativeModel("gemini-2.0-flash")
 
-        prompt = f"""
-You are helping a college student understand academic material by converting it into a short educational video.
-
-Below is the raw text extracted from a class document. Your task is to identify and structure the most important concepts clearly so that they can be used to generate visual and audio content for a video.
-
-Please return:
-1. A **list of 5–7 core concepts or topics** from the material, written in short and simple language.
-2. For each concept, include:
-   - A **title** (max 8 words)
-   - A **1–2 sentence explanation** (max 30 words)
-   - A **visual description** (to guide AI image generation)
-   - A **voiceover script** (natural and student-friendly, max 3 sentences)
-
-### Example Output Format:
-- **Title:** What is a Graph?
-  - **Explanation:** A graph is a way to show how things are connected using points (nodes) and lines (edges).
-  - **Visual:** An illustration of 5 dots connected by lines, representing friends in a social network.
-  - **Voiceover:** "Imagine your social network. Each person is a dot, and each connection is a line. That's what we call a graph."
-
-Here is the document content:
-
-{text[:5000]}
-        """
+        # Get prompt from environment variable
+        prompt_template = os.getenv('EXTRACT_FILE_PROMPT')
+        
+        # Format the prompt with the extracted text
+        prompt = f"{prompt_template}\n\n{text[:5000]}"
 
         response = model.generate_content(prompt)
         return response.text
@@ -91,33 +199,39 @@ Here is the document content:
     except Exception as e:
         return f"Error with Gemini API: {str(e)}"
 
-
-def process_uploaded_file(filename):
-    """Process the file in uploads directory and save results as JSON"""
-    # Construct file path
-    uploads_dir = 'uploads'
-    filepath = os.path.join(uploads_dir, filename)
+def process_extracted_info(file_info):
+    """
+    Process already extracted file information with Gemini and save results
     
-    # Check if file exists
-    if not os.path.exists(filepath):
-        return {"error": f"File {filename} not found in uploads directory"}
-    
-    # Extract text from file
-    extracted_text = extract_text_from_file(filepath)
+    Args:
+        file_info (dict): File information dictionary from extract_file_info
+        
+    Returns:
+        dict: Processing result summary
+    """
+    # Check if there was an error during extraction
+    if "error" in file_info:
+        return file_info
     
     # Process with Gemini
-    gemini_response = send_to_gemini(extracted_text)
+    gemini_response = send_to_gemini(file_info["extracted_text"])
     
     # Create a summary object
     summary = {
-        "filename": filename,
+        "filename": file_info["filename"],
         "processed_time": datetime.datetime.now().isoformat(),
-        "extracted_text_preview": extracted_text[:500] + "..." if len(extracted_text) > 500 else extracted_text,
+        "extraction_time": file_info["extraction_time"],
+        "extracted_text_preview": file_info["text_preview"],
         "gemini_analysis": gemini_response
     }
     
-    # Save as JSON
-    json_path = os.path.join('uploads', 'summary.json')
+    # Ensure prompts directory exists
+    prompts_dir = 'prompts'
+    if not os.path.exists(prompts_dir):
+        os.makedirs(prompts_dir)
+    
+    # Save as JSON in the prompts directory
+    json_path = os.path.join(prompts_dir, 'all_prompts.json')
     
     with open(json_path, 'w', encoding='utf-8') as json_file:
         json.dump(summary, json_file, indent=2, ensure_ascii=False)
@@ -125,11 +239,16 @@ def process_uploaded_file(filename):
     return {
         "message": "File successfully processed",
         "summary_file": json_path,
-        "original_file": filepath
+        "original_file": file_info["filepath"]
     }
 
-if __name__ == "__main__":
-    # Get list of files in uploads directory
+def get_files_in_uploads():
+    """
+    Get list of files in the uploads directory
+    
+    Returns:
+        list: List of valid files for processing (excluding JSON files)
+    """
     uploads_dir = 'uploads'
     if not os.path.exists(uploads_dir):
         os.makedirs(uploads_dir)
@@ -137,12 +256,60 @@ if __name__ == "__main__":
     # Filter out JSON files from processing
     files = [f for f in os.listdir(uploads_dir) if os.path.isfile(os.path.join(uploads_dir, f)) and not f.endswith('.json')]
     
+    return files
+
+def get_oldest_file():
+    """
+    Get the oldest file in the uploads directory based on modification time
+    
+    Returns:
+        str or None: Filename of the oldest file, or None if no files found
+    """
+    files = get_files_in_uploads()
+    
     if not files:
-        print("No files found in uploads directory")
-    else:
-        # Process the most recently added file (based on modification time)
-        latest_file = max(files, key=lambda f: os.path.getmtime(os.path.join(uploads_dir, f)))
-        print(f"Processing latest file: {latest_file}")
+        return None
+    
+    uploads_dir = 'uploads'
+    oldest_file = min(files, key=lambda f: os.path.getmtime(os.path.join(uploads_dir, f)))
+    
+    return oldest_file
+
+def process_uploaded_file(filename):
+    """
+    Process a file from the uploads directory and save analysis results as JSON
+    
+    Args:
+        filename (str): Name of the file to process
         
-        result = process_uploaded_file(latest_file)
-        print(json.dumps(result, indent=2))
+    Returns:
+        dict: Processing result summary
+    """
+    # Extract file information
+    file_info = extract_file_info(filename)
+    
+    # Process the extracted information
+    return process_extracted_info(file_info)
+
+def process_oldest_file():
+    """
+    Process the oldest file in the uploads directory
+    
+    Returns:
+        dict: Processing result or error message
+    """
+    oldest_file = get_oldest_file()
+    
+    if not oldest_file:
+        return {"error": "No files found in uploads directory"}
+    
+    print(f"Processing oldest file: {oldest_file}")
+    return process_uploaded_file(oldest_file)
+
+if __name__ == "__main__":
+    """
+    Main execution block: 
+    Processes the oldest file in the uploads directory when script is run directly
+    """
+    result = process_oldest_file()
+    print(json.dumps(result, indent=2))
