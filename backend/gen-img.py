@@ -5,13 +5,14 @@ from io import BytesIO
 import base64
 import os
 from dotenv import load_dotenv
+import re
 
 # Load environment variables
 load_dotenv()
 
 def parse_prompt_file(file_path):
     """
-    Read a text file and parse it into an array of prompts.
+    Read a text file containing formatted prompts with headers.
     
     Args:
         file_path (str): Path to the text file containing prompts
@@ -24,12 +25,24 @@ def parse_prompt_file(file_path):
         with open(file_path, 'r') as file:
             content = file.read()
         
-        # Split by commas and clean up each prompt
+        # Split content by sections (each section starts with # header)
+        sections = re.split(r'\n# ', content)
+        
+        # Process each section (skip empty ones)
         prompts = []
-        for prompt in content.splitlines():
-            cleaned_prompt = prompt.strip()
-            if cleaned_prompt:  # Only add non-empty prompts
-                prompts.append(cleaned_prompt)
+        for section in sections:
+            if not section.strip():
+                continue
+                
+            # If this is the first section and doesn't start with #, add the # back
+            if not section.startswith('#') and sections.index(section) == 0:
+                section = '# ' + section
+                
+            # For other sections, add the # back since we split on \n#
+            elif not section.startswith('#') and sections.index(section) > 0:
+                section = section
+                
+            prompts.append(section.strip())
         
         print(f"Successfully parsed {len(prompts)} prompts from {file_path}")
         return prompts
@@ -49,6 +62,7 @@ def generate_image(prompt):
         PIL.Image: Generated image object
         str: Response text if any
     """
+    
     # Initialize client with API key from environment variable
     client = genai.Client(api_key=os.getenv('GOOGLE_API_KEY'))
     
@@ -58,6 +72,10 @@ def generate_image(prompt):
         contents=prompt,
         config=types.GenerateContentConfig(
             response_modalities=['Text', 'Image']
+            # system_instruction=[
+            # "You're an image generator. You role is to create simple and clean images with good colors, text-content, labels, etc. ",
+            # "You will be given instructions that will have the description of the image. Use your best knowledge to create realistic content.",
+        # ]
         )
     )
     
@@ -72,33 +90,50 @@ def generate_image(prompt):
         elif part.inline_data is not None:
             generated_image = Image.open(BytesIO((part.inline_data.data)))
             
-    # Save the image
-    
     return generated_image, response_text
+
+def main():
+    """
+    Main function to read image prompts from the file and generate images
+    """
+    # Get the absolute path to the prompts directory
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    prompts_dir = os.path.join(script_dir, 'prompts')
+    image_prompts_path = os.path.join(prompts_dir, 'image_prompts.txt')
+    
+    # Check if the image prompts file exists
+    if not os.path.exists(image_prompts_path):
+        print(f"Error: Image prompts file not found at {image_prompts_path}")
+        return
+    
+    # Parse image prompts
+    image_prompts = parse_prompt_file(image_prompts_path)
+    
+    # Create images directory if it doesn't exist
+    images_dir = os.path.join(script_dir, 'images')
+    os.makedirs(images_dir, exist_ok=True)
+    
+    # Generate and save images
+    for i, prompt in enumerate(image_prompts):
+        print(f"\nGenerating image {i} of {len(image_prompts)}:")
+        print(f"{prompt[:100]}..." if len(prompt) > 100 else prompt)
+        
+        # Generate the image
+        system_instructions = """You're an image generator. You role is to create simple and clean images with good colors, text-content, labels, etc. ",
+            "You will be given instructions that will have the description of the image. Use your best knowledge to create realistic content."""
+        image, text = generate_image(system_instructions + '\n' + prompt)
+        
+        # Save the image
+        if image:
+            output_path = os.path.join(images_dir, f'{i}.png')
+            image.save(output_path)
+            print(f"Image saved to: {output_path}")
+        else:
+            print(f"Failed to generate image for prompt {i}")
 
 # Example usage
 if __name__ == "__main__":
-    sample_prompt = ('An educational infographic showing a horizontal timeline with three labeled segments: '
-                    '\"Phone Screen\", \"Onsite Interview\", and \"Decision\". Each stage includes an icon: '
-                    'a phone, a laptop with video call, and a thumbs-up/checkmark. Use clean vector-style visuals '
-                    'with shades of blue, white, and black. College-style slide design, no clutter, minimalistic font.')
-    
-    #image, text = generate_image(sample_prompt)
+    main()
 
-    # Parse image prompts
-    img_prompt_file = '/Users/arnav/Desktop/projects/bitcamp/backend/prompts/img-prompts-20250412-062250.txt'
-    image_prompts = parse_prompt_file(img_prompt_file)
-    
-    # Print all image prompts
-    print("\nImage Prompts:")
-    for i, prompt in enumerate(image_prompts):
-        print(f"\nPrompt {i+1}:")
-        print(f"{prompt[:100]}..." if len(prompt) > 100 else prompt)
-        image, text = generate_image(prompt)
-        # Uncomment to save image
-        if image:
-          os.makedirs('images', exist_ok=True)
-          output_path = os.path.join('images', f'{i}.png')
-          image.save(output_path)
-          print(f"Image saved to: {output_path}")
-    
+# Parse into functions to export
+# Try
