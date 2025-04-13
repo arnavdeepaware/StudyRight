@@ -1,0 +1,55 @@
+# Linked List
+
+Linked List – Notes
+
+✅ What is a Linked List?
+
+A Linked List is a linear data structure where each element (node) contains:
+
+Data
+A reference (pointer) to the next node in the sequence
+Unlike arrays, elements are not stored in contiguous memory.
+
+🧱 Types of Linked Lists
+
+Type	Description
+Singly Linked List	Nodes have pointer to the next node only
+Doubly Linked List	Each node has pointers to both next and previous nodes
+Circular Linked List	The last node points back to the first node
+🧠 Basic Operations (Singly)
+
+Operation	Description
+insertAtHead()	Add node at the beginning
+insertAtTail()	Add node at the end
+deleteNode()	Remove a node (by value or position)
+search()	Find a value in the list
+traverse()	Visit all nodes from head to tail
+🧪 Node Structure (Python)
+
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+📊 Time Complexity (Singly)
+
+Operation	Time Complexity
+Insertion at head	O(1)
+Insertion at tail	O(n)
+Deletion (by value)	O(n)
+Search	O(n)
+Traversal	O(n)
+🔄 Advantages
+
+Dynamic size (no need to define size upfront)
+Efficient insertions/deletions at the head or middle
+⚠️ Disadvantages
+
+No direct access to elements (unlike arrays)
+Extra memory for storing pointers
+📦 Use Cases
+
+Implementing stacks and queues
+Navigating browsers (forward/back history with DLL)
+Managing memory allocation
+Polynomial arithmetic
+Music/video playlist structures

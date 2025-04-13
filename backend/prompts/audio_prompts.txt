@@ -1,20 +1,26 @@
-# Main Memory: Bytes and Bits
-Think of your computer's main memory like a massive grid. It's made up of bytes, and each byte has 8 bits. Each bit can be either a one or a zero.
+# What is a Linked List?
+Imagine a chain of connected boxes. Each box holds information and a pointer to the next box in line. That's a linked list!
 
-# Memory Addresses: Finding Bytes
-Every byte has an address, like a house number, starting from zero. This allows programs to quickly find and use the data stored in specific memory locations.
 
-# Words: Groups of Bytes
-Sometimes, we need to work with groups of bytes together. These pairs are called 'words'. So Bytes 2 and 3 would make one word in Memory.
+# Singly vs. Doubly vs. Circular
+Linked lists have types: singly, doubly and circular. Singly goes one way, doubly goes back and forth, and circular connect to the start!
 
-# Encoding Data: From Numbers to Bits
-Computers only understand zeros and ones. So, we use special 'codes' like two's complement to turn numbers and letters into binary for storage.
 
-# ASCII and Unicode: Character Codes
-Characters also need to be encoded. Common systems are ASCII, using one byte per character, and Unicode, which uses two, allowing for many more character possibilities!
+# Adding Nodes to a Linked List
+Want to add a node? You can add it to the front or the back. Adding to the front is really quick!
 
-# Machine Language: CPU Instructions
-The CPU understands machine language, which is a sequence of instructions represented by bytes. Different CPUs can have different machine languages.
 
-# Volatile Memory: The Data Vanishes
-Main memory is volatile, which means when you turn off your computer, all the data in main memory is lost. That's why we need other storage like hard drives!
+# Removing Nodes
+Deleting a node involves finding it and then updating the pointer to skip over it, removing it from the list.
+
+
+# Time Complexity: How Fast Are Linked Lists?
+Linked lists are fast in some operations, especially when adding to the beginning. But other common things, like searching, can take longer.
+
+
+# Linked List Advantages and Disadvantages
+Linked lists are flexible and good at adding and removing, but accessing specific data is harder than in things like arrays. There is always a trade off.
+
+
+# Where Are Linked Lists Used?
+You might not realize it, but linked lists are everywhere! They're used in stacks, queues, your browser history, managing memory, and even your music playlist.

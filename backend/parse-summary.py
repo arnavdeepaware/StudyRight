@@ -54,6 +54,8 @@ def extract_prompts(json_path):
         if visual_match:
             visual = visual_match.group(1).strip()
             image_prompts.append(f"# {title}\n{visual}\n")
+
+    print(f"Extracted {len(audio_prompts)} audio prompts and {len(image_prompts)} image prompts.")
     
     return audio_prompts, image_prompts
 

@@ -1,20 +1,26 @@
-# Main Memory: Bytes and Bits
-A split screen: On one side, show a magnified view of a computer chip with glowing lights representing bits (1s and 0s). On the other, show a series of bytes visually represented as small boxes.
+# What is a Linked List?
+A diagram showing three boxes (nodes) in a row. Each box has a number inside (data) and an arrow pointing to the next box. The last box's arrow points to null.
 
-# Memory Addresses: Finding Bytes
-A numbered grid representing memory locations. Highlight specific cells as the voiceover mentions addresses.
 
-# Words: Groups of Bytes
-Highlight two adjacent bytes in the memory grid and visually combine them into a single, larger unit labeled "Word."
+# Singly vs. Doubly vs. Circular
+Three diagrams side-by-side: (1) Singly: arrows point in one direction. (2) Doubly: arrows point in both directions. (3) Circular: the last arrow points back to the first.
 
-# Encoding Data: From Numbers to Bits
-Show an integer (e.g., "42") transforming into a binary representation (e.g., "00101010"). An arrow points from the integer to the binary representation.
 
-# ASCII and Unicode: Character Codes
-Show a table comparing ASCII and Unicode. Visually represent the difference in the number of characters each can represent. For example, ASCII table, then a much larger Unicode table.
+# Adding Nodes to a Linked List
+An animation showing a new node being inserted at the beginning of a linked list, shifting the other nodes over. Then, show a node being added at the end of the list.
 
-# Machine Language: CPU Instructions
-Simple animation showing a sequence of bytes being "read" by a CPU. Show those Bytes being converted to CPU instructions.
 
-# Volatile Memory: The Data Vanishes
-A memory chip fading out as a power cord is unplugged. The bits (1s and 0s) disappear.
+# Removing Nodes
+A linked list diagram. An animation shows a node being removed from the middle, and the arrow from the previous node now pointing to the node after the removed one.
+
+
+# Time Complexity: How Fast Are Linked Lists?
+A table comparing the time complexity of different linked list operations (insertion at head, tail, deletion, search, traversal). Use color-coding to highlight fast (green) vs. slow (red) operations.
+
+
+# Linked List Advantages and Disadvantages
+A split screen. One side shows the benefits of a linked list (dynamic size, efficient insertion). The other shows drawbacks (no direct access, extra memory).
+
+
+# Where Are Linked Lists Used?
+A montage of icons or short clips representing different use cases: a stack of plates, a queue of people, browser back/forward buttons, memory allocation blocks, a music playlist.

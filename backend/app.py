@@ -159,28 +159,38 @@ def file_to_video(file_path):
         
         # Step 2: Parse the AI-generated prompts into audio and image instructions
         print("🔍 Step 2: Parsing summary into prompts...")
-        
-        # Import the parse_summary module
-        parse_spec = importlib.util.spec_from_file_location("parse_summary", 
-                                                           "parse-summary.py")
-        parse_module = importlib.util.module_from_spec(parse_spec)
-        parse_spec.loader.exec_module(parse_module)
-        
-        # Process the summary file to extract prompts
-        prompts_dir = 'prompts'
-        json_path = os.path.join(prompts_dir, 'all_prompts.json')
-        audio_path, image_path = parse_module.process_summary_file(json_path, prompts_dir)
-        
-        if not audio_path or not image_path:
-            results["status"] = "failed"
-            results["error"] = "Failed to parse prompts from summary"
-            return results
+        try:
+            # Import the parse_summary module
+            parse_spec = importlib.util.spec_from_file_location(
+                "parse_summary", 
+                os.path.join(os.path.dirname(__file__), "parse-summary.py")
+            )
+            parse_module = importlib.util.module_from_spec(parse_spec)
+            parse_spec.loader.exec_module(parse_module)
             
-        results["steps"]["parsing"] = {
-            "audio_prompts": audio_path,
-            "image_prompts": image_path
-        }
-        print("✅ Prompts parsed successfully")
+            # Process the summary file to extract prompts
+            prompts_dir = 'prompts'
+            json_path = os.path.join(prompts_dir, 'all_prompts.json')
+            
+            # Create prompts directory if it doesn't exist
+            os.makedirs(prompts_dir, exist_ok=True)
+            
+            # Process the summary file
+            audio_path, image_path = parse_module.process_summary_file(json_path, prompts_dir)
+            
+            if not audio_path or not image_path:
+                raise Exception("Failed to generate prompt files")
+                
+            results["steps"]["parsing"] = {
+                "audio_prompts": audio_path,
+                "image_prompts": image_path
+            }
+            print("✅ Prompts parsed successfully")
+            
+        except Exception as e:
+            results["status"] = "failed"
+            results["error"] = f"Failed to parse prompts: {str(e)}"
+            return results
         
         # Step 3: Generate images from prompts
         print("🎨 Step 3: Generating images...")
