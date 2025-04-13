@@ -1,20 +1,20 @@
 # Main Memory: Bytes and Bits
-An animation showing a memory chip. Zoom in to show bytes, then zoom further to show individual bits represented as 1s and 0s.
+A split screen: On one side, show a magnified view of a computer chip with glowing lights representing bits (1s and 0s). On the other, show a series of bytes visually represented as small boxes.
 
 # Memory Addresses: Finding Bytes
-A numbered list representing memory addresses (0, 1, 2, 3...). Highlight a specific address and show data being accessed from that location.
+A numbered grid representing memory locations. Highlight specific cells as the voiceover mentions addresses.
 
 # Words: Groups of Bytes
-Show bytes with addresses 2 and 3 grouped together, highlighting them as a single "word." Label the combined bits as "16 bits."
+Highlight two adjacent bytes in the memory grid and visually combine them into a single, larger unit labeled "Word."
 
-# Coding Integers: Two's Complement
-Show an example of a decimal number (e.g., -5) being converted to its two's complement binary representation (a sequence of 0s and 1s).
+# Encoding Data: From Numbers to Bits
+Show an integer (e.g., "42") transforming into a binary representation (e.g., "00101010"). An arrow points from the integer to the binary representation.
 
-# Coding Characters: ASCII and Unicode
-A table showing examples of characters (A, B, C, etc.) and their corresponding ASCII or Unicode values. Briefly contrast the size (1 byte vs 2 bytes).
+# ASCII and Unicode: Character Codes
+Show a table comparing ASCII and Unicode. Visually represent the difference in the number of characters each can represent. For example, ASCII table, then a much larger Unicode table.
 
-# Machine Language: Instructions for the CPU
-Show a simplified representation of a machine language instruction as a sequence of bytes.
+# Machine Language: CPU Instructions
+Simple animation showing a sequence of bytes being "read" by a CPU. Show those Bytes being converted to CPU instructions.
 
-# Volatile Memory: Remember, It's Temporary!
-An animation showing data disappearing from a memory chip when a power cord is unplugged.
+# Volatile Memory: The Data Vanishes
+A memory chip fading out as a power cord is unplugged. The bits (1s and 0s) disappear.
