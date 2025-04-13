@@ -1,12 +1,34 @@
+"""
+Video Generation API Server
+
+This Flask application provides an API for:
+1. Uploading documents (PDF, DOCX, TXT, DOC)
+2. Converting uploaded documents to educational videos
+3. Serving the generated videos
+
+The conversion pipeline includes:
+- Text extraction from documents
+- AI-powered content analysis
+- Prompt generation for images and audio
+- Image generation
+- Audio voice-over generation
+- Video assembly and stitching
+"""
+
 from flask import Flask, request, jsonify, send_file
 from flask_cors import CORS
 import os
+import importlib.util
+import json
+import sys
+import shutil
 from werkzeug.utils import secure_filename
 
+# Initialize Flask app
 app = Flask(__name__)
 CORS(app)  # Enable CORS for all routes
 
-# Configure upload folder
+# Configuration
 UPLOAD_FOLDER = 'uploads'
 ALLOWED_EXTENSIONS = {'txt', 'pdf', 'doc', 'docx'}
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
@@ -15,10 +37,27 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 def allowed_file(filename):
+    """
+    Check if the uploaded file has an allowed extension
+    
+    Args:
+        filename (str): Name of the uploaded file
+        
+    Returns:
+        bool: True if file extension is allowed, False otherwise
+    """
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 @app.route('/api/upload', methods=['POST'])
 def upload_file():
+    """
+    API endpoint to handle file uploads
+    
+    Accepts POST requests with files and saves valid files to the uploads directory.
+    
+    Returns:
+        JSON response with success/error message and filename if successful
+    """
     # Check if the post request has the file part
     if 'file' not in request.files:
         return jsonify({'error': 'No file part'}), 400
@@ -34,9 +73,6 @@ def upload_file():
         filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
         file.save(filepath)
         
-        # Process the file here if needed
-        # For example, you might want to analyze the notes
-        
         return jsonify({
             'message': 'File successfully uploaded',
             'filename': filename
@@ -48,6 +84,8 @@ def upload_file():
 def get_video(filename):
     """
     Generate and return a video from an uploaded file
+    
+    This endpoint triggers the complete video generation pipeline for the specified file.
     
     Args:
         filename (str): The name of the file to convert to video
@@ -92,12 +130,7 @@ def file_to_video(file_path):
     Returns:
         dict: Status information including success/failure and output video path
     """
-    import os
-    import json
-    import sys
-    import shutil
     from extract import process_uploaded_file
-    import importlib.util
     
     # Create a results dictionary to track progress
     results = {
@@ -252,4 +285,4 @@ def file_to_video(file_path):
         return results
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5000)
+    app.run(host="0.0.0.0", port=8080)
