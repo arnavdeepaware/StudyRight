@@ -10,13 +10,12 @@ const HomePage = () => {
   const [uploadStatus, setUploadStatus] = useState('');
   const [processingStep, setProcessingStep] = useState('');
   const [currentStepIndex, setCurrentStepIndex] = useState(0);
-  
+
   const fileInputRef = useRef(null);
   const leftRef = useRef(null);
   const rightRef = useRef(null);
   const containerRef = useRef(null);
 
-  // Define simplified processing steps - only 3 stages
   const processingSteps = [
     { id: 'parse', label: 'Parsing your document...', description: 'Extracting key information from your lecture notes' },
     { id: 'generate', label: 'Generating content...', description: 'Creating visuals and audio for your video' },
@@ -61,25 +60,22 @@ const HomePage = () => {
     };
   }, []);
 
-  // Animated progression through processing steps - faster cycle
   useEffect(() => {
     let timer;
     if (isLoading) {
       timer = setInterval(() => {
-        setCurrentStepIndex(prevIndex => {
+        setCurrentStepIndex((prevIndex) => {
           const newIndex = (prevIndex + 1) % processingSteps.length;
           setProcessingStep(processingSteps[newIndex].label);
           return newIndex;
         });
-      }, 1500); // Reduced from 3000ms to 1500ms for faster cycling
+      }, 1500);
     }
-
     return () => {
       if (timer) clearInterval(timer);
     };
-  }, [isLoading, processingSteps]);
+  }, [isLoading]);
 
-  // Handle file selection
   const handleFileChange = (e) => {
     if (e.target.files && e.target.files[0]) {
       setFile(e.target.files[0]);
@@ -87,19 +83,16 @@ const HomePage = () => {
     }
   };
 
-  // Trigger file input click
   const handleUploadClick = () => {
     fileInputRef.current.click();
   };
 
-  // Process the selected file
   const handleProcessFile = async () => {
     if (!file) {
       setMessage('Please select a file first');
       return;
     }
 
-    // Reset states
     setIsLoading(true);
     setUploadStatus('Transforming your lecture notes into a video');
     setCurrentStepIndex(0);
@@ -107,11 +100,11 @@ const HomePage = () => {
     setMessage('');
 
     try {
-      // Step 1: Upload the file
+      // STEP 1: Upload document to backend
       const formData = new FormData();
       formData.append('file', file);
 
-      const uploadResponse = await fetch('http://localhost:8080/api/upload', {
+      const uploadResponse = await fetch('http://localhost:5000/api/upload', {
         method: 'POST',
         body: formData,
       });
@@ -122,9 +115,9 @@ const HomePage = () => {
       }
 
       const uploadData = await uploadResponse.json();
-      
-      // Step 2: Generate video from the uploaded file
-      const videoResponse = await fetch(`http://localhost:8080/api/video/${uploadData.filename}`, {
+
+      // STEP 2: Generate video from uploaded file
+      const videoResponse = await fetch(`http://localhost:5000/api/video/${uploadData.filename}`, {
         method: 'GET',
       });
 
@@ -133,29 +126,29 @@ const HomePage = () => {
         throw new Error(errorData.error || 'Video generation failed');
       }
 
-      // Create a blob URL for the video and download it
-      const videoBlob = await videoResponse.blob();
-      const url = URL.createObjectURL(videoBlob);
-      
-      // Trigger automatic download
-      const fileName = file.name.split('.')[0] + '_video.mp4';
-      const downloadLink = document.createElement('a');
-      downloadLink.href = url;
-      downloadLink.download = fileName;
-      downloadLink.style.display = 'none';
-      document.body.appendChild(downloadLink);
-      downloadLink.click();
-      document.body.removeChild(downloadLink);
-      
-      // Clean up the blob URL after download
-      setTimeout(() => {
-        URL.revokeObjectURL(url);
-      }, 100);
-      
-      setMessage(`Success! Your video "${fileName}" has been downloaded.`);
+      // STEP 3: Upload generated video to S3
+      const s3UploadResponse = await fetch('http://localhost:5000/api/upload-from-output', {
+        method: 'POST',
+      });
+
+      const s3Result = await s3UploadResponse.json();
+
+      if (!s3UploadResponse.ok) {
+        throw new Error(s3Result.error || 'S3 upload failed');
+      }
+
+      // ✅ DONE: Show video URL
+      setMessage(
+        <span>
+          ✅ Video uploaded!{' '}
+          <a href={s3Result.url} target="_blank" rel="noopener noreferrer">
+            Watch Video
+          </a>
+        </span>
+      );
     } catch (error) {
       console.error('Error:', error);
-      setMessage(`Error: ${error.message}`);
+      setMessage(`❌ ${error.message}`);
     } finally {
       setIsLoading(false);
       setUploadStatus('');
@@ -171,7 +164,9 @@ const HomePage = () => {
           <span className="logo-text">StudyRight</span>
         </div>
         <nav className="nav-menu">
-          <button className="nav-button logout" onClick={() => navigate('/')}>Logout</button>
+          <button className="nav-button logout" onClick={() => navigate('/')}>
+            Logout
+          </button>
         </nav>
       </header>
 
@@ -181,26 +176,20 @@ const HomePage = () => {
             <h1>Your Learning Library</h1>
             <p className="description">Browse and discover content created just for you</p>
           </div>
-          
-          <button 
-            className="action-btn primary-btn" 
-            onClick={() => navigate('/explore')}
-            aria-label="Explore videos"
-          >
+          <button className="action-btn primary-btn" onClick={() => navigate('/explore')}>
             <span className="btn-icon">🎬</span>
             <span>Explore Videos</span>
           </button>
         </div>
       </div>
-      
+
       <div className="split right" ref={rightRef}>
         <div className="content">
           <div className="panel-heading">
             <h1>Create New Content</h1>
             <p className="description">Transform your lecture notes into engaging short-form videos</p>
           </div>
-          
-          {/* File upload section */}
+
           <div className="button-group">
             <input
               type="file"
@@ -209,38 +198,24 @@ const HomePage = () => {
               accept=".txt,.pdf,.doc,.docx"
               style={{ display: 'none' }}
             />
-            <button 
-              className="action-btn upload-btn" 
-              onClick={handleUploadClick}
-              aria-label="Upload content for a video"
-              disabled={isLoading}
-            >
+            <button className="action-btn upload-btn" onClick={handleUploadClick} disabled={isLoading}>
               <span className="btn-icon">📄</span>
               <span>{isLoading ? 'Processing...' : 'Upload Document'}</span>
             </button>
-            
+
             {file && (
-              <button 
-                className="action-btn process-btn" 
-                onClick={handleProcessFile}
-                disabled={isLoading}
-              >
+              <button className="action-btn process-btn" onClick={handleProcessFile} disabled={isLoading}>
                 <span className="btn-icon">🚀</span>
                 <span>Generate Video</span>
               </button>
             )}
-            
-            <button 
-              className="action-btn secondary-btn" 
-              onClick={() => navigate('/notes')}
-              aria-label="Type notes for a video"
-            >
+
+            <button className="action-btn secondary-btn" onClick={() => navigate('/notes')}>
               <span className="btn-icon">✏️</span>
               <span>Type Your Notes</span>
             </button>
           </div>
-          
-          {/* Status messages */}
+
           {uploadStatus && !isLoading && (
             <div className="status-container">
               <p className="upload-status">{uploadStatus}</p>
@@ -249,7 +224,7 @@ const HomePage = () => {
               </div>
             </div>
           )}
-          
+
           {file && (
             <div className="file-info-container">
               <span className="file-icon">📝</span>
@@ -265,18 +240,15 @@ const HomePage = () => {
           <button className="close-toast" onClick={() => setMessage('')}>×</button>
         </div>
       )}
-      
-      {/* Enhanced loading indicator with simplified processing steps */}
+
       {isLoading && (
         <div className="loading-overlay">
           <div className="processing-container">
-            <div className="loader">
-              <div className="spinner"></div>
-            </div>
+            <div className="loader"><div className="spinner"></div></div>
             <h3 className="processing-title">{uploadStatus}</h3>
             <p className="processing-step">{processingStep}</p>
             <p className="step-description">{processingSteps[currentStepIndex].description}</p>
-            
+
             <div className="processing-steps">
               {processingSteps.map((step, index) => (
                 <React.Fragment key={step.id}>
