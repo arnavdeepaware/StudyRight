@@ -58,7 +58,7 @@ const ExplorePage = () => {
           </svg>
           <span>Back</span>
         </button>
-        <h1 className="explore-title">Explore Computer Science</h1>
+        <h1 className="explore-title">Explore Topics</h1>
       </div>
       <div className="panels-container">
         {panels.map((panel, index) => (

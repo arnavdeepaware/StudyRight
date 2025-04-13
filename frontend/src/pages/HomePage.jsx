@@ -52,7 +52,7 @@ const HomePage = () => {
     <div className="container" ref={containerRef}>
       <div className="split left" ref={leftRef}>
         <div className="content">
-          <h1>Your Reels</h1>
+          <h1>Your Videos</h1>
           <p className="description">Browse and discover amazing content</p>
           <button 
             className="btn" 
@@ -65,7 +65,7 @@ const HomePage = () => {
       </div>
       <div className="split right" ref={rightRef}>
         <div className="content">
-          <h1>Create a Reel</h1>
+          <h1>Create a Video</h1>
           <p className="description">Share your creativity with the world</p>
           <div className="button-group">
             <button 
