@@ -22,13 +22,13 @@ const LoginPage = () => {
   return (
     <div className="container">
       <div className="main-container">
-        {/* Left side - Brand section /}
+        {/* Left side - Brand section */}
         <div className="brand-container">
           <h1 className="brand-title">StudyRight</h1>
-          <p className="brand-tagline">Welcome to your way of Studying Right</p>
+          <p id="colr" className="brand-tagline" style={{textAlign: 'center'}}>Welcome to your way of Studying Right</p>
         </div>
-
-        {/ Right side - Login form */}
+        
+        {/* Right side - Login form */}
         <div className="login-container">
           <div className="form-container">
             <h1 className="opacity" style={{textAlign: 'center'}}>Sign In</h1>
