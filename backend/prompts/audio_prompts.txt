@@ -1,22 +1,18 @@
-# Section 1: Linked Lists: Not Your Grandma's Chain Letters!
-Arrays? So last year! Linked lists are where it's at! Think of them as a chain of data... where each piece knows where the next piece is hiding! Dynamic, baby!
+# Section 1: Insertion Sort Explained!
+Ever played cards? Insertion Sort is like arranging a hand! You pick a card and insert it into the right spot in your sorted hand. That's basically it!
 
 
-# Section 2: Linked List Types: Choose Your Adventure!
-Not all linked lists are created equal! Singly linked lists go one way. Doubly? They go both ways! And circular? They go round and round! Choose wisely, young padawan.
+# Section 2: Insertion Sort: The Card Game Algorithm
+Imagine you're sorting a hand of cards. You pick one up, compare it to the others, and slide it into the right spot. That's Insertion Sort! It's great for small, nearly sorted datasets.
 
 
-# Section 3: Linked List Basic Moves!
-Alright, let's get down to business. Head insertions? Easy! Tail insertions? A little trickier. Deletions and searches? Consider it handled! Linked lists: versatile AND efficient!
+# Section 3: Loop Invariants Demystified (Insertion Sort Edition)
+Proving your algorithm works? Use Loop Invariants! For Insertion Sort, the subarray to the left is *always* sorted. Initialization, maintenance, termination - that's the key!
 
 
-# Section 4: Node Structure: The Building Block!
-Meet the Node! This little guy holds your data and a pointer to the next Node. It's the secret ingredient to the Linked List magic!
+# Section 4: Insertion Sort Correctness: Initialization
+First, does our invariant hold at the start? For insertion sort, before the loop starts the subarray A[1..j-1] is technically empty, or A[1..0]. An empty array is by definition sorted, so the invariant holds!
 
 
-# Section 5: Linked List Time Complexity: The Good, The Bad & The Ugly
-Speed matters! Some linked list operations are lightning fast, others... not so much. Know your time complexities to avoid a code slowdown!
-
-
-# Section 6: Linked List Use Cases: More Than You Think!
-Linked lists aren't just theoretical! They power stacks, queues, your browser history, and even your music playlists! Mind blown!
+# Section 5: Insertion Sort Correctness: Maintenance
+If our invariant is true at the beginning of the loop, is it still true at the *end* of the loop? The insert part of the code preserves the sortedness!

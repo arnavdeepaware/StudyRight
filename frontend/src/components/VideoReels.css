@@ -420,3 +420,28 @@
     max-width: 900px;
   }
 }
+
+/* Unmute hint styles */
+.unmute-hint {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  z-index: 10;
+}
+
+.unmute-hint svg {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.unmute-hint span {
+  font-size: 0.875rem;
+}

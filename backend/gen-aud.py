@@ -71,23 +71,40 @@ def generate_audio(text, filename):
 def get_audio_prompts():
     """
     Read text prompts from the audio_prompts.txt file.
+    Groups text between section headers as single prompts.
     
     Returns:
         list: List of text prompts
     """
     prompts = []
+    current_prompt = []
+    
     try:
         with open('prompts/audio_prompts.txt', 'r') as file:
-            prompts = [line.strip() for line in file.readlines() if line.strip()]
+            lines = file.readlines()
+            
+        for line in lines:
+            line = line.strip()
+            if line.startswith('# Section'):
+                # If we have collected text from previous section, add it
+                if current_prompt:
+                    prompts.append(' '.join(current_prompt))
+                current_prompt = []
+            elif line:  # If line is not empty and not a section header
+                current_prompt.append(line)
+                
+        # Add the last section if exists
+        if current_prompt:
+            prompts.append(' '.join(current_prompt))
         
         if not prompts:
             print("Warning: No prompts found in the file.")
         else:
-            print(f"Found {len(prompts)} prompts to process.")
+            print(f"Found {len(prompts)} sections to process.")
             
     except FileNotFoundError:
         print("Error: 'prompts/audio_prompts.txt' file not found.")
-        print("Create this file with one prompt per line.")
+        print("Create this file with sections marked by '# Section X: Title'")
     except Exception as e:
         print(f"Error reading prompts: {str(e)}")
         

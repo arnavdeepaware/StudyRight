@@ -1,0 +1,58 @@
+# Micro Economics
+
+Microeconomics – Notes
+
+✅ What is Microeconomics?
+
+Microeconomics is the study of individual decision-making units in an economy — like households, firms, and industries — and how they interact in specific markets.
+
+It focuses on supply & demand, price formation, consumer behavior, and firm production.
+
+🧠 Core Concepts
+
+1. Demand
+Law of Demand: As price ↓, quantity demanded ↑ (inverse relationship)
+Demand Curve: Downward sloping
+Shift Factors: Income, preferences, prices of related goods, expectations
+2. Supply
+Law of Supply: As price ↑, quantity supplied ↑ (direct relationship)
+Supply Curve: Upward sloping
+Shift Factors: Input costs, technology, taxes/subsidies, expectations
+3. Equilibrium
+Where quantity demanded = quantity supplied
+At this point, market clears (no surplus or shortage)
+👤 Consumer Behavior
+
+Utility:
+Satisfaction from consuming goods
+Total Utility: Total satisfaction
+Marginal Utility: Extra utility from one more unit
+Law of Diminishing Marginal Utility: MU ↓ as consumption ↑
+Indifference Curves:
+Show combinations of goods giving equal satisfaction
+Downward sloping, convex to origin
+🏭 Theory of Production & Costs
+
+Short Run vs Long Run:
+Short run: At least one fixed input
+Long run: All inputs variable
+Law of Diminishing Returns:
+Adding more of one input (keeping others fixed) leads to less additional output
+Costs:
+Type	Definition
+Fixed Cost (FC)	Does not vary with output
+Variable Cost (VC)	Changes with output
+Total Cost (TC)	FC + VC
+Average Cost (AC)	TC / Output
+Marginal Cost (MC)	∆TC / ∆Output
+📦 Market Structures
+
+Market Type	Features
+Perfect Competition	Many buyers/sellers, identical products, price takers
+Monopoly	One seller, high barriers, price maker
+Monopolistic Comp.	Many sellers, product differentiation, some price control
+Oligopoly	Few sellers, interdependent, possible collusion
+💸 Elasticity
+
+Price Elasticity of Demand (PED):
+Measures how much quantity demanded responds to price change

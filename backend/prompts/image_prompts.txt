@@ -1,34 +1,28 @@
-# Section 1: Linked Lists: Not Your Grandma's Chain Letters!
-Ever heard of linked lists? ⛓️ They're like arrays, but with *pointers*! Find out why they're so flexible! #datastructures #linkedlist #computerscience #coding #programming
+# Section 1: Insertion Sort Explained!
+Learn the basics of Insertion Sort, a simple sorting algorithm! #algorithms #computerscience #sorting #insertionsort #coding
 
-Animated chain of nodes (boxes) visually linking together, with arrows indicating the "next" pointer. One box dramatically pulls away from the chain.
-
-
-# Section 2: Linked List Types: Choose Your Adventure!
-Singly, Doubly, Circular...🤯 So many linked lists! Which one is right for your project? 🤔 #linkedlist #singlylinkedlist #doublylinkedlist #circularlinkedlist
-
-Three distinct visual representations of the different linked list types (Singly, Doubly, Circular) with labels.
+Animation showing how Insertion Sort works, highlighting the element being inserted and the shifting of other elements.
 
 
-# Section 3: Linked List Basic Moves!
-Adding? Deleting? Searching? Linked Lists got you covered! 😎 #linkedlist #datastructures #codinglife #insert #delete #search
+# Section 2: Insertion Sort: The Card Game Algorithm
+Insertion Sort explained with playing cards. A simple way to visualize the process!
 
-Short animated clips showcasing each basic operation (insertAtHead, insertAtTail, deleteNode, search) on a linked list.
-
-
-# Section 4: Node Structure: The Building Block!
-Ever wonder what makes up a linked list? Here's a sneak peek at the building block! 🧱 #linkedlist #nodes #python #codingbasics
-
-A Python code snippet of the Node class with highlighted data and next pointer sections.
+A person sorting playing cards in their hand, demonstrating how each card is inserted into its correct position.
 
 
-# Section 5: Linked List Time Complexity: The Good, The Bad & The Ugly
-Insertion: ⚡️ Fast! Searching: 🐌 Slow! Time to learn the time complexities of Linked Lists. #bigO #timecomplexity #linkedlist #efficiency
+# Section 3: Loop Invariants Demystified (Insertion Sort Edition)
+Loop invariants are your friends when proving algorithms! #loopinvariants #algorithms #coding #computerscience
 
-A table or graphic showing the time complexities of common Linked List operations (Insertion at Head - O(1), Insertion at Tail - O(n), Deletion - O(n), Search - O(n)). Use emojis to visually represent the time.
+Text overlay: "Loop Invariant: A[1..j-1] is always sorted" with an arrow pointing to the sorted portion of an array being sorted by Insertion Sort.
 
 
-# Section 6: Linked List Use Cases: More Than You Think!
-Stacks, Queues, Browser History?! Linked Lists are everywhere! Where else do you see them being used? #linkedlist #applications #coding #datastructures
+# Section 4: Insertion Sort Correctness: Initialization
+Loop Invariant Proof Step 1: Initialization!
 
-A montage of images representing different use cases: a stack of pancakes, a queue of people, a browser window with back/forward buttons, and a music playlist.
+Close-up shot of the beginning of the array (index 1) with emphasis on the fact that a single-element array is considered sorted. Text: "A[1..0] - Empty, therefore sorted!"
+
+
+# Section 5: Insertion Sort Correctness: Maintenance
+Loop Invariant Proof Step 2: Maintenance!
+
+Visual of array being sorted, with emphasis on the shifting of elements to the right to create space for the correct insertion. Text overlay: "If A[1..j-1] is sorted before, is A[1..j] sorted after?"

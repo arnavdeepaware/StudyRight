@@ -22,11 +22,26 @@ import importlib.util
 import json
 import sys
 import shutil
+import time  # Add this import here
+import traceback  # Add this import here
 from werkzeug.utils import secure_filename
 
 # Initialize Flask app
 app = Flask(__name__)
-CORS(app)  # Enable CORS for all routes
+CORS(app, resources={
+    r"/api/*": {
+        "origins": [
+            "http://localhost:3000",
+            "http://127.0.0.1:3000",
+            "http://localhost:5173",  # Add Vite dev server
+            "http://127.0.0.1:5173"   # Add Vite dev server IP
+        ],
+        "methods": ["GET", "POST", "OPTIONS"],
+        "allow_headers": ["Content-Type", "Authorization", "Accept"],
+        "expose_headers": ["Content-Type"],
+        "supports_credentials": True
+    }
+})
 
 # Configuration
 UPLOAD_FOLDER = 'uploads'
@@ -289,11 +304,22 @@ def file_to_video(file_path):
         results["status"] = "success"
         results["output_video"] = final_video_path
         print(f"✅ Final video created at: {final_video_path}")
+
+        # Copy final video to frontend public directory
+        frontend_videos_dir = '../frontend/public/prev-videos'
+        os.makedirs(frontend_videos_dir, exist_ok=True)
+        
+        # Generate unique name based on timestamp
+        new_video_name = f"video_{int(time.time())}.mp4"
+        new_video_path = os.path.join(frontend_videos_dir, new_video_name)
+        
+        # Copy the video file
+        shutil.copy2(final_video_path, new_video_path)
+        print(f"✅ Video copied to frontend at: {new_video_path}")
         
         return results
         
     except Exception as e:
-        import traceback
         error_details = traceback.format_exc()
         results["status"] = "failed"
         results["error"] = f"Error in video generation pipeline: {str(e)}"

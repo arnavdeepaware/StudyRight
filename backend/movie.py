@@ -88,12 +88,12 @@ def batch_create_videos(image_dir="images", audio_dir="audios", output_dir="temp
             duration = audio_clip.duration
             
             # Resize the image to fit the target dimensions while maintaining aspect ratio
-            # Height of 1080 for standard HD video
-            video = image_clip.set_duration(duration).resize(height=1080)
+            # Standard HD resolution (1920x1080)
+            video = image_clip.set_duration(duration).resize(width=1920)
             
-            # Center crop if width exceeds target (607px)
-            if video.w > 607:
-                video = video.crop(width=607, height=1080, x_center=video.w/2)
+            # Center crop height if it exceeds 1080px
+            if video.h > 1080:
+                video = video.crop(width=1920, height=1080, y_center=video.h/2)
             
             # Add audio to the video
             video = video.set_audio(audio_clip)

@@ -207,7 +207,7 @@ Content to process:
 '''
         
         # Format the prompt with the extracted text
-        prompt = f"{prompt_template}\n\n{text[:5000]}"ç
+        prompt = f"{prompt_template}\n\n{text[:5000]}"
 
         response = model.generate_content(prompt)
         return response.text

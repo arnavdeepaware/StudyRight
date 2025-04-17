@@ -1,0 +1,39 @@
+# Databases
+
+DBMS – Notes
+
+✅ What is DBMS?
+
+A Database Management System (DBMS) is software that allows users to define, create, maintain, and control access to a database.
+
+💾 Key Functions
+
+Data Storage: Efficiently stores data
+Data Retrieval: Fast query execution
+Data Manipulation: Insert, update, delete operations
+Access Control: Ensures authorized use
+Backup & Recovery: Restores data after failure
+Concurrency Control: Supports multiple users simultaneously
+🧱 DBMS vs RDBMS
+
+Feature	DBMS	RDBMS
+Structure	Stores data as files	Stores data as tables
+Normalization	Not supported	Supported
+Relationships	No	Yes (via foreign keys)
+Example	XML, JSON storage systems	MySQL, PostgreSQL, Oracle
+🧠 Key Concepts
+
+1. Schema: Blueprint/structure of a database
+2. Instance: Snapshot of data in a DB at a moment
+3. Keys:
+Primary Key: Uniquely identifies a record
+Foreign Key: Links one table to another
+Candidate Key: All possible primary keys
+Super Key: Any key that uniquely identifies a row
+📊 Normalization
+
+Normal Form	Purpose
+1NF	Remove repeating groups
+2NF	Remove partial dependencies
+3NF	Remove transitive dependencies
+BCNF	Stronger version of 3NF

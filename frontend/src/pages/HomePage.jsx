@@ -111,20 +111,27 @@ const HomePage = () => {
       const formData = new FormData();
       formData.append('file', file);
 
-      const uploadResponse = await fetch('http://localhost:8080/api/upload', {
+      const uploadResponse = await fetch('http://127.0.0.1:8080/api/upload', {
         method: 'POST',
+        headers: {
+          'Accept': 'application/json'
+        },
         body: formData,
+        mode: 'cors',
+        credentials: 'include'
       });
 
       if (!uploadResponse.ok) {
         const errorData = await uploadResponse.json();
+        console.error('Upload failed:', errorData);
         throw new Error(errorData.error || 'File upload failed');
       }
 
       const uploadData = await uploadResponse.json();
+      console.log('Upload successful:', uploadData); // Add debugging
       
       // Step 2: Generate video from the uploaded file
-      const videoResponse = await fetch(`http://localhost:8080/api/video/${uploadData.filename}`, {
+      const videoResponse = await fetch(`http://127.0.0.1:8080/api/video/${uploadData.filename}`, {
         method: 'GET',
       });
 
